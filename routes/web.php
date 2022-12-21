@@ -23,3 +23,4 @@ Route::post("/register-user", [AuthController::class, 'registerUser'])->name('re
 Route::post("/login-user", [AuthController::class, 'loginUser'])->name('login-user');
 Route::get("/dashboard", [AuthController::class, 'dashBoard'])->middleware('isLoggedIn');
 Route::get("/logout", [AuthController::class, 'logout']);
+Route::get("/delete-user", [AuthController::class, 'delete'])->name('setting-user');

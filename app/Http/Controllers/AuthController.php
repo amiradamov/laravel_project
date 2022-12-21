@@ -146,4 +146,10 @@ class AuthController extends Controller
             return redirect('login');
         }
     }
+    public function delete(Request $request){
+        $delete_user = 0;
+        if (Session::has('logginId') && $request->input('delete') == "True"){
+            
+        }
+    }
 }
