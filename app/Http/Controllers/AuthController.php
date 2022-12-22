@@ -149,7 +149,11 @@ class AuthController extends Controller
     public function delete(Request $request){
         $delete_user = 0;
         if (Session::has('logginId') && $request->input('delete') == "True"){
-            
+            User::where('id', Session('logginId'))->delete();
+            Session::pull('logginId');
+            return redirect('login')->with("success", "User successfully deleted");
+        }else {
+            return back()->with("fail", "Try again")
         }
     }
 }
