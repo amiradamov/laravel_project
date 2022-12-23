@@ -147,12 +147,24 @@ class AuthController extends Controller
         }
     }
     public function delete(Request $request){
-        $delete_user = 0;
         if (Session::has('logginId') && $request->input('delete') == "True"){
             User::where('id', Session('logginId'))->delete();
             Session::pull('logginId');
             return redirect('login')->with("success", "User successfully deleted");
         }else {
+            return back()->with("fail", "Try again");
+        }
+    }
+    public function editUser(Request $request){
+        if(Session::has('logginId') && $request->input('edit') == "user-edit"){
+            $request->session()->put('EditUser', $request->input('edit'));
+            return back()->with("Edit");
+        }
+        if(Session::has('logginId') && $request->input('cancel') == "user-cancel"){
+            Session::pull('EditUser');
+            return back();
+        }
+        else{
             return back()->with("fail", "Try again");
         }
     }

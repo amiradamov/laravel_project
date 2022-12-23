@@ -27,6 +27,29 @@
                             </div>
                         @endif
                         <button name="delete" value="True">Delete</button>
+                        <button name="edit" value="user-edit">Edit</button>
+
+                        @if (Session("EditUser"))
+                            <table>
+                                <thead>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Password</th>
+                                </thead>
+                                <tbody>
+                                    <th><input type="text" class="col-auto"></th>
+                                    <th><input type="text" class="col-auto"></th>
+                                    <th><input type="password" class="col-auto"></th>
+                                </tbody>
+                                <br>
+                                <tbody>
+                                    <th>
+                                        <button name="cancel" value="user-cancel">Cancel</button>
+                                        <button name="submit" value="user-submit">Submit</button> 
+                                    </th>
+                                </tbody>
+                            </table>
+                        @endif
                     </form>
                 </th>
             </tbody>
