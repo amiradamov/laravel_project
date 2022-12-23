@@ -153,7 +153,7 @@ class AuthController extends Controller
             Session::pull('logginId');
             return redirect('login')->with("success", "User successfully deleted");
         }else {
-            return back()->with("fail", "Try again")
+            return back()->with("fail", "Try again");
         }
     }
 }
