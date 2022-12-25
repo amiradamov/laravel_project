@@ -15,7 +15,18 @@
                 <th>
                     <a href="logout">Logout</a>
                     <form action="{{route('setting-user')}}" method="GET">
-                        {{-- @csrf --}}
+                        @csrf
+                        @if(count($errors))
+                            <div class="form-group">
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach($errors->all() as $error)
+                                            <li>{{$error}}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        @endif
                         @if (Session("success"))
                             <div class="alert alert-success">
                                 {{session("success")}}
@@ -37,9 +48,9 @@
                                     <th>Password</th>
                                 </thead>
                                 <tbody>
-                                    <th><input type="text" class="col-auto"></th>
-                                    <th><input type="text" class="col-auto"></th>
-                                    <th><input type="password" class="col-auto"></th>
+                                    <th><input type="text" class="col-auto" autocomplete="off" value="" name="name"></th>
+                                    <th><input type="text" class="col-auto" autocomplete="off" value="" name="email"></th>
+                                    <th><input type="password" class="col-auto" autocomplete="off" value="" name="password"></th>
                                 </tbody>
                                 <br>
                                 <tbody>

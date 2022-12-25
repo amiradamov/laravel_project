@@ -155,12 +155,27 @@ class AuthController extends Controller
             return back()->with("fail", "Try again");
         }
     }
+
     public function editUser(Request $request){
         if(Session::has('logginId') && $request->input('edit') == "user-edit"){
             $request->session()->put('EditUser', $request->input('edit'));
             return back()->with("Edit");
         }
-        if(Session::has('logginId') && $request->input('cancel') == "user-cancel"){
+        if(Session::has('logginId') && $request->input('cancel') == "user-cancel") {
+            Session::pull('EditUser');
+            return back();
+        }
+        if(Session::has('logginId') && $request->input('submit') == 'user-submit') {
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required|email|unique:users',
+                'password' => 'required|min:5|max:15'
+            ]);
+            User::where('id', Session('logginId'))->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
             Session::pull('EditUser');
             return back();
         }
