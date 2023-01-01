@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('items');
+        // Schema::dropIfExists('items');
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('item_name');
@@ -22,8 +22,8 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->binary('item_image');
-            $table->json('item_ingredients');
+            $table->binary('item_image')->nullable();
+            $table->json('item_ingredients')->nullable();
             $table->boolean('item_status');
             $table->timestamps();
         });
