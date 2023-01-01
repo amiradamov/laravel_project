@@ -13,8 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('items');
         Schema::create('items', function (Blueprint $table) {
             $table->id();
+            $table->string('item_name');
+            $table->float('item_price', 8, 2);
+            $table->foreignId('category_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->binary('item_image');
+            $table->json('item_ingredients');
+            $table->boolean('item_status');
             $table->timestamps();
         });
     }
