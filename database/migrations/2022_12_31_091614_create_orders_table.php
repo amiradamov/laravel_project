@@ -21,7 +21,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->boolean('total_amount');
             $table->foreign('proccessed_by')
-                ->references('id')
+                ->references('user_id')
                 ->on('users')
                 ->onDelete('cascade');
             $table->boolean('order_status');

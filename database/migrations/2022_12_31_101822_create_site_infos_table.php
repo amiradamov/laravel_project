@@ -15,6 +15,14 @@ return new class extends Migration
     {
         Schema::create('site_infos', function (Blueprint $table) {
             $table->id();
+            $table->string('site_name');
+            $table->longText('description');
+            $table->string('contact_phone_number');
+            $table->longText('address');
+            $table->foreign('proccessed_by')
+                ->references('user_id')
+                ->on('users')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
