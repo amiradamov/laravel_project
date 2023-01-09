@@ -15,6 +15,14 @@ return new class extends Migration
     {
         Schema::create('item_ingredients', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('item_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('ingredient_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -13,21 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('customer_first_name');
+            $table->string('customer_last_name');
+            $table->string('customer_middle_name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->foreignId('user_type_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->string('user_phone_number');
+            $table->string('customer_phone_number');
             $table->string('address');
-            $table->string('user_username');
-            $table->string('user_password');
-            $table->boolean('user_status');
-            $table->rememberToken();
+            $table->binary('profile_image');
+            $table->string('customer_username');
+            $table->string('customer_password');
+            $table->boolean('customer_status');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -40,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('customers');
     }
 };
