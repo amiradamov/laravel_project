@@ -23,7 +23,11 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->integer('payment_status');
+            $table->foreignId('payment_status');
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->date('payment_date');
             $table->timestamps();
         });
     }
