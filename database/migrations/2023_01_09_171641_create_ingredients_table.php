@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('ingredients', function (Blueprint $table) {
             $table->id();
             $table->string('ingredient_name');
+            $table->boolean('ingredient_status');
             $table->timestamps();
         });
     }
