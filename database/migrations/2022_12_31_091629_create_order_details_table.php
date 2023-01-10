@@ -18,11 +18,11 @@ return new class extends Migration
             $table->foreignId('order_id')
                 ->constrained()
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
             $table->foreignId('item_id')
                 ->constrained()
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
             $table->integer('no_of_serving');
             $table->timestamps();
         });

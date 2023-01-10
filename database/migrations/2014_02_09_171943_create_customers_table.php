@@ -15,16 +15,16 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('customer_first_name');
-            $table->string('customer_last_name');
-            $table->string('customer_middle_name');
-            $table->string('email')->unique();
+            $table->string('customer_first_name')->nullable();
+            $table->string('customer_last_name')->nullable();
+            $table->string('customer_middle_name')->nullable();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('customer_phone_number');
-            $table->string('address');
-            $table->binary('profile_image');
-            $table->string('customer_username');
-            $table->string('customer_password');
+            $table->string('customer_phone_number')->nullable();
+            $table->string('address')->nullable();
+            $table->binary('profile_image')->nullable();
+            $table->string('customer_username')->nullable();
+            $table->string('customer_password')->nullable();
             $table->boolean('customer_status');
             $table->timestamps();
             $table->softDeletes();

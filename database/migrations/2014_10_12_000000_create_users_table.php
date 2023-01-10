@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignId('user_type_id')
                 ->constrained()
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
             $table->string('user_phone_number');
             $table->string('address');
             $table->string('user_username');
@@ -29,7 +29,6 @@ return new class extends Migration
             $table->boolean('user_status');
             $table->rememberToken();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

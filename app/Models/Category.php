@@ -14,7 +14,8 @@ class Category extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    protected $fillable = ['category_name',
+    protected $fillable = [
+    'category_name',
     'description',
     'category_status'];
     public function item()

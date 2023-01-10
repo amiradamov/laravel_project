@@ -20,7 +20,7 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->integer('score');
-            $table->longText('comments');
+            $table->longText('comments')->nullable();
             $table->foreignId('customer_id')
                 ->constrained()
                 ->onUpdate('cascade')

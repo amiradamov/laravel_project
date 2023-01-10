@@ -38,7 +38,7 @@ Route::get("/category", function() {
 Route::get("/items", function() {
     Item::create(['item_name' => 'hotdog', 
     'item_price' => 4.99,
-    'category_id' => 1, 
+    'category_id' =>2, 
     'item_status' => 1]);
 });
 

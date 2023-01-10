@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('modules', function (Blueprint $table) {
             $table->id();
-            $table->string('module_name');
+            $table->string('module_name')->nullable();
             $table->timestamps();
         });
     }

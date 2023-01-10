@@ -21,7 +21,12 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'user_type_id',
+        'user_phone_number',
+        'address',
+        'user_username',
+        'user_password',
+        'user_status',
     ];
 
     /**
@@ -42,4 +47,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the user that owns the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function usertype()
+    {
+        return $this->belongsTo(UserType::class);
+    }
 }

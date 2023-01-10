@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('site_infos', function (Blueprint $table) {
             $table->id();
-            $table->string('site_name');
-            $table->longText('description');
-            $table->string('contact_phone_number');
-            $table->longText('address');
+            $table->string('site_name')->nullable();
+            $table->longText('description')->nullable();
+            $table->string('contact_phone_number')->nullable();
+            $table->longText('address')->nullable();
             $table->unsignedBigInteger('proccessed_by');
             $table->foreign('proccessed_by')
                 ->references('id')
