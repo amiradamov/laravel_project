@@ -19,8 +19,9 @@ return new class extends Migration
             $table->longText('description');
             $table->string('contact_phone_number');
             $table->longText('address');
+            $table->unsignedBigInteger('proccessed_by');
             $table->foreign('proccessed_by')
-                ->references('user_id')
+                ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
             $table->timestamps();

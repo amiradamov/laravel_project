@@ -20,8 +20,9 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->boolean('total_amount');
+            $table->unsignedBigInteger('proccessed_by');
             $table->foreign('proccessed_by')
-                ->references('user_id')
+                ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
             $table->boolean('order_status');

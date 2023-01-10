@@ -30,16 +30,16 @@ Route::get("/delete-user", [AuthController::class, 'delete'])->name('setting-use
 Route::get("/edit-user", [AuthController::class, 'editUser'])->name('setting-user');
 // Route::get("/edit-cancel", [AuthController::class, 'cancelEdit'])->name('setting-user');
 
-// Route::get("/category", function() {
-//     Category::create(['category_name' => 'fruits', 
-//     'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 
-//     'category_status' => 1]);
-// });
-// Route::get("/items", function() {
-//     Item::create(['item_name' => 'hotdog', 
-//     'item_price' => 4.99,
-//     'category_id' => 1, 
-//     'item_status' => 1]);
-// });
+Route::get("/category", function() {
+    Category::create(['category_name' => 'fruits', 
+    'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 
+    'category_status' => 1]);
+});
+Route::get("/items", function() {
+    Item::create(['item_name' => 'hotdog', 
+    'item_price' => 4.99,
+    'category_id' => 1, 
+    'item_status' => 1]);
+});
 
 Route::get("/category/{id}", [AdminPannel::class, 'show']);

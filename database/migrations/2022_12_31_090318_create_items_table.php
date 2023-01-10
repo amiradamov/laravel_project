@@ -25,7 +25,7 @@ return new class extends Migration
             $table->binary('item_image')->nullable();
             $table->json('item_ingredients')->nullable();
             $table->boolean('item_status');
-            $table->timestamps();
+            $table->timestamps();  
         });
     }
 
