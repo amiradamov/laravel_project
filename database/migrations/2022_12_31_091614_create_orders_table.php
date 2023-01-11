@@ -18,13 +18,14 @@ return new class extends Migration
             $table->foreignId('customer_id')
                 ->constrained()
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
             $table->boolean('total_amount');
             $table->unsignedBigInteger('proccessed_by');
             $table->foreign('proccessed_by')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade');
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
             $table->boolean('order_status');
             $table->timestamps();
         });

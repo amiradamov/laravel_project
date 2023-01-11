@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignId('category_id')
                 ->constrained()
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
             $table->binary('item_image')->nullable();
             $table->json('item_ingredients')->nullable();
             $table->boolean('item_status');

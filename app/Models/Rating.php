@@ -15,13 +15,4 @@ class Rating extends Model
         'comments',
         // 'customer_id'
     ];
-    /**
-     * The roles that belong to the Rating
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function roles(): BelongsToMany
-    {
-        return $this->belongsToMany(Role::class, 'rating', 'user_id', 'role_id');
-    }
 }

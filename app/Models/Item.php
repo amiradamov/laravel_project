@@ -14,14 +14,25 @@ class Item extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    protected $fillable = ['item_name',
+    protected $fillable = [
+    'item_name',
     'item_price',
     'category_id',
     'item_image',
-    'item_status'];
+    'item_status',
+];
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+    /**
+     * The customer that belong to the Category
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function customer(): BelongsToMany
+    {
+        return $this->belongsToMany(Customer::class, 'ratings');
     }
 }
 

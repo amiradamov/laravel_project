@@ -18,11 +18,11 @@ return new class extends Migration
             $table->foreignId('item_id')
                 ->constrained()
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
             $table->foreignId('ingredient_id')
                 ->constrained()
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
             $table->timestamps();
         });
     }

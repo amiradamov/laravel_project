@@ -38,8 +38,9 @@ Route::get("/category", function() {
 Route::get("/items", function() {
     Item::create(['item_name' => 'hotdog', 
     'item_price' => 4.99,
-    'category_id' =>2, 
+    'category_id' =>1, 
     'item_status' => 1]);
 });
 
 Route::get("/category/{id}", [AdminPannel::class, 'show']);
+Route::get("/rating", [AdminPannel::class, 'rating']);
