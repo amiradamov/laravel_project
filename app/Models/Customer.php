@@ -26,9 +26,10 @@ class Customer extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function item(): BelongsToMany
+    public function item()
     {
-        return $this->belongsToMany(Item::class, 'ratings');
+        return $this->belongsToMany(Item::class, 'ratings')->withPivot('score', 'comments')
+        ->withTimestamps();
     }
 
 }

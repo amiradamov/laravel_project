@@ -13,6 +13,6 @@ class Rating extends Model
         'item_id',
         'score',
         'comments',
-        // 'customer_id'
+        'customer_id'
     ];
 }

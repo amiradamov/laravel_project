@@ -17,7 +17,9 @@ class AdminPannel extends Controller
         return view("category")->with('category', $category);
     }
     public function rating() {
-        $rating = Rating::find(1);
-        dd($rating);
+        $rating = Rating::find(1);  
+        $item = Item::find(2);
+        // dd($item);
+        return view("category")->with('item', $item);
     }
 }

@@ -23,7 +23,8 @@ return new class extends Migration
             $table->foreign('proccessed_by')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade');
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
             $table->timestamps();
         });
     }

@@ -18,13 +18,13 @@ return new class extends Migration
             $table->foreignId('item_id')
                 ->constrained()
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
             $table->integer('score');
             $table->longText('comments')->nullable();
             $table->foreignId('customer_id')
                 ->constrained()
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
             $table->timestamps();
         });
     }
