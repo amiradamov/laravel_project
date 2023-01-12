@@ -14,7 +14,16 @@ class Order extends Model
         "total_amount",
         "proccessed_by",
         "order_status",
-    ],
-
-    
+    ];
+    /**
+     * The item that belong to the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function item()
+    {
+        return $this->belongsToMany(Item::class, 'order_details')
+        ->withPivot('no_of_serving')
+        ->withTimestamps();
+    }
 }

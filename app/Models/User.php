@@ -57,4 +57,15 @@ class User extends Authenticatable
     {
         return $this->belongsTo(UserType::class);
     }
+    /**
+     * The customer that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function customer(): BelongsToMany
+    {
+        return $this->belongsToMany(Customer::class, "orders")
+        ->withPivot('total_amount', "order_status")
+        ->withTimestamps();
+    }
 }

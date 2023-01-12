@@ -31,5 +31,16 @@ class Customer extends Model
         return $this->belongsToMany(Item::class, 'ratings')->withPivot('score', 'comments')
         ->withTimestamps();
     }
+    /**
+     * The user that belong to the Customer
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function user()
+    {
+        return $this->belongsToMany(User::class, "orders")
+        ->withPivot('total_amount', "order_status")
+        ->withTimestamps();
+    }
 
 }

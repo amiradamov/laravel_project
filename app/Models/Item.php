@@ -33,8 +33,29 @@ class Item extends Model
     public function customer()
     {
         return $this->belongsToMany(Customer::class, 'ratings')->withPivot('score', 'comments')
-        ->withTimestamps()
-        ->wherePivot('score', 8);
+        ->withTimestamps();
+        // ->wherePivot('score', 8);
+    }
+    /**
+     * The ingredient that belong to the Item
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function ingredient()
+    {
+        return $this->belongsToMany(Ingredient::class, "item_ingredients")
+        ->withTimestamps();
+    }
+    /**
+     * The order that belong to the Item
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function order(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class, "order_details")
+        ->withPivot('no_of_serving')
+        ->withTimestamps();
     }
 }
 

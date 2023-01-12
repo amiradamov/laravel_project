@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Ingredient;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Category;
 use App\Models\Rating;
+use App\Models\Order;
 use App\Models\Item;
+
 
 class AdminPannel extends Controller
 {
@@ -21,5 +24,15 @@ class AdminPannel extends Controller
         $item = Item::find(2);
         // dd($item);
         return view("category")->with('item', $item);
+    }
+    public function ingredient() {
+        $item = Item::find(2);
+        // dd($item);
+        return view("category")->with('item', $item);
+    }
+    public function order() {
+        $order = Order::find(1);
+        // dd($item);
+        return view("category")->with('order', $order);
     }
 }

@@ -11,17 +11,11 @@
     @empty  
     @endforelse --}}
     <br>
-    <h1>{{$item->item_name}}</h1>
-    @forelse ($item->customer as $customer)
+    {{-- <h1>{{$order->pivot['no_of_serving']}}</h1> --}}
+    @forelse ($order->item as $item)
         <ul>
             <li class="inline italic text-gray-600 px-1 py-6">
-                {{$customer->pivot['score']}}
-            </li>
-            <li class="inline italic text-gray-600 px-1 py-6">
-                {{$customer->pivot['comments']}}
-            </li>
-            <li class="inline italic text-gray-600 px-1 py-6">
-                {{$customer['customer_first_name']}} {{$customer['customer_last_name']}} 
+                {{$item->pivot['no_of_serving']}}
             </li>
         </ul>
         
