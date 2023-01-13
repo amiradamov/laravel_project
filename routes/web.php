@@ -46,3 +46,5 @@ Route::get("/category/{id}", [AdminPannel::class, 'show']);
 Route::get("/rating", [AdminPannel::class, 'rating']);
 Route::get("/ingredient", [AdminPannel::class, 'ingredient']);
 Route::get("/order", [AdminPannel::class, 'order']);
+Route::get("/customers", [AdminPannel::class, 'customers']);
+Route::get("/customer/{id}", [AdminPannel::class, 'customer_details']);

@@ -35,4 +35,12 @@ class AdminPannel extends Controller
         // dd($item);
         return view("category")->with('order', $order);
     }
+    public function customers() {
+        $customers = Customer::all();
+        return view("adminpanel/customers")->with('customers', $customers);
+    }
+    public function customer_details($id) {
+        $customer = Customer::find($id);
+        return view("adminpanel/customer")->with('customer', $customer);
+    }
 }

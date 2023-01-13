@@ -28,6 +28,12 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->date('payment_date');
+            // $table->unsignedBigInteger('proccessed_by');
+            // $table->foreign('proccessed_by')
+            //     ->references('id')
+            //     ->on('users')
+            //     ->onUpdate('cascade')
+            //     ->onDelete('restrict');
             $table->timestamps();
         });
     }
