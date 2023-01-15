@@ -38,8 +38,8 @@ class Customer extends Model
      */
     public function user()
     {
-        return $this->belongsToMany(User::class, "orders")
-        ->withPivot('total_amount', "order_status")
+        return $this->belongsToMany(User::class, 'orders', 'customer_id', 'proccessed_by')
+        ->withPivot('id', 'total_amount', "order_status")
         ->withTimestamps();
     }
 

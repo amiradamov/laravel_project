@@ -4,14 +4,13 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -55,17 +54,17 @@ class User extends Authenticatable
      */
     public function usertype()
     {
-        return $this->belongsTo(UserType::class);
+        return $this->belongsTo(UserType::class, 'user_type_id');
     }
     /**
      * The customer that belong to the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function customer(): BelongsToMany
+    public function customer()
     {
-        return $this->belongsToMany(Customer::class, "orders")
-        ->withPivot('total_amount', "order_status")
+        return $this->belongsToMany(Customer::class, 'orders', 'customer_id', 'proccessed_by')
+        ->withPivot('total_amount', "order_status", "proccessed_by")
         ->withTimestamps();
     }
 }
