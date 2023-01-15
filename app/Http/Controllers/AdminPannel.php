@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Ingredient;
 use Illuminate\Http\Request;
+use App\Models\Ingredient;
 use App\Models\Customer;
 use App\Models\Category;
 use App\Models\Rating;
@@ -41,6 +41,10 @@ class AdminPannel extends Controller
     }
     public function customer_details($id) {
         $customer = Customer::find($id);
-        return view("adminpanel/customer")->with('customer', $customer);
+        $orders = Order::where('customer_id', $id)->get();
+        // echo $orders;
+        return view("adminpanel/customer")
+        ->with('customer', $customer)
+        ->with('orders', $orders);
     }
 }

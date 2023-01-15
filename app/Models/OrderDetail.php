@@ -11,5 +11,5 @@ class OrderDetail extends Model
 
     protected $fillable = [
         "no_of_serving",
-    ]
+    ];
 }
