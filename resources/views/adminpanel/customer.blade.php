@@ -12,6 +12,7 @@
         <th>Created at</th>
         <th></th>
     </tr>
+    
 
     @forelse ($customer->user as $user)
     <tr>
