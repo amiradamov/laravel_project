@@ -10,7 +10,7 @@
                 <th>email</th>
                 <th>phone</th>
                 <th>address</th>
-                <th></th>
+                <th>Check orders</th>
             </tr>
             @forelse ($customers as $customer)
                 <tr>
