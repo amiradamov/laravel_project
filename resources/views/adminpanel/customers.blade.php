@@ -21,6 +21,7 @@
                     <td>{{$customer->customer_phone_number}}</td>
                     <td>{{$customer->address}}</td>
                     <td>
+                        
                         <a href="{{ URL::to('customer/'.$customer->id) }}">View</a>
                     </td>
                 </tr>
