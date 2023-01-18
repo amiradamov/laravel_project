@@ -15,7 +15,7 @@ use Hash;
 
 class Authenticate extends Controller
 {
-    public function registrations() {
-
+    public function login() {
+        return view("adminpanel.authentication.login");
     }
 }

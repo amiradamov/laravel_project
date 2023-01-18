@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AAuthController;
 use App\Http\Controllers\AdminPannel;
+use App\Http\Controllers\Authenticate;
 use App\Models\Item;
 use App\Models\Category;
 /*
@@ -20,14 +21,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get("/login", [AuthController::class, 'login']);
-Route::get("/registration", [AuthController::class, 'registration']);
-Route::post("/register-user", [AuthController::class, 'registerUser'])->name('register-user');
-Route::post("/login-user", [AuthController::class, 'loginUser'])->name('login-user');
-Route::get("/dashboard", [AuthController::class, 'dashBoard'])->middleware('isLoggedIn');
-Route::get("/logout", [AuthController::class, 'logout']);
-Route::get("/delete-user", [AuthController::class, 'delete'])->name('setting-user');
-Route::get("/edit-user", [AuthController::class, 'editUser'])->name('setting-user');
+Route::get("/login", [AAuthController::class, 'login']);
+Route::get("/registration", [AAuthController::class, 'registration']);
+Route::post("/register-user", [AAuthController::class, 'registerUser'])->name('register-user');
+Route::post("/login-user", [AAuthController::class, 'loginUser'])->name('login-user');
+Route::get("/dashboard", [AAuthController::class, 'dashBoard'])->middleware('isLoggedIn');
+Route::get("/logout", [AAuthController::class, 'logout']);
+Route::get("/delete-user", [AAuthController::class, 'delete'])->name('setting-user');
+Route::get("/edit-user", [AAuthController::class, 'editUser'])->name('setting-user');
 // Route::get("/edit-cancel", [AuthController::class, 'cancelEdit'])->name('setting-user');
 
 // Route::get("/category", function() {
@@ -45,3 +46,6 @@ Route::get("/edit-user", [AuthController::class, 'editUser'])->name('setting-use
 Route::get("/customers", [AdminPannel::class, 'customers']);
 Route::get("/customer/{id}", [AdminPannel::class, 'customer_details']);
 Route::get("/order/{id}", [AdminPannel::class, 'order_details']);
+
+// Admin Pannel
+Route::get("admin/login", [Authenticate::class, 'login']);
