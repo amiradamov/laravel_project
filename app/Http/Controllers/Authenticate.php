@@ -18,4 +18,9 @@ class Authenticate extends Controller
     public function login() {
         return view("adminpanel.authentication.login");
     }
+    public function loginAdmin(Request $request) {
+        $request->validate([
+            'username' =>
+        ])
+    }
 }
