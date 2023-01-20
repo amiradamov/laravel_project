@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-<dir>
+<div>
         <table class="table table-dark">
             <tr>
                 <th>#</th>
@@ -28,5 +28,5 @@
                 
             @endforelse
         </table>
-</dir>
+</div>
 @endsection
