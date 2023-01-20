@@ -143,7 +143,7 @@ textarea {
   margin:20px 0px;
 }
 
-.btn_uy a {
+.btn_uy input {
     padding: 10px 20px;
     background: #37a000;
     text-transform: uppercase;

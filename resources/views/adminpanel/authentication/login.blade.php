@@ -5,7 +5,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <form action="{{route('login-user')}}" method="POST">
+          <form action="{{route('login-admin')}}" method="POST">
             @csrf
             <div class="form-sub-main">
               {{-- <div class="_main_head_as">
@@ -14,12 +14,12 @@
                 </a>
               </div> --}}
               <div class="form-group">
-                  <input id="username" name="username" class="form-control _ge_de_ol" type="text" placeholder="User Name" required="" aria-required="true">
+                  <input id="username" name="username" class="form-control _ge_de_ol" type="text" placeholder="User Name" aria-required="true">
               </div>
   
               <div class="form-group">                                              
-                <input id="password" type="password" class="form-control" name="password" placeholder="Password" required="required">
-                <i toggle="#password" class="fa fa-fw fa-eye toggle-password field-icon"></i>
+                <input id="password" type="password" class="form-control" name="password" placeholder="Password">
+                
               </div>
   
               {{-- <div class="form-group">
@@ -30,9 +30,30 @@
   
               <div class="form-group">
                 <div class="btn_uy">
-                  <a href="#"><span>Login</span></a>
+                  <input type="submit" value="Login">
                 </div>
               </div>
+              @if (Session("success"))
+              <div class="alert alert-success">
+                {{session("success")}}
+              </div>
+            @endif
+            @if (Session("fail"))
+              <div class="alert alert-danger">
+                {{session("fail")}}
+              </div>
+            @endif
+              @if(count($errors))
+              <div class="form-group">
+                  <div class="alert alert-danger">
+                      <ul>
+                          @foreach($errors->all() as $error)
+                              <li>{{$error}}</li>
+                          @endforeach
+                      </ul>
+                  </div>
+              </div>
+            @endif
             </div>
           </form>
         </div>

@@ -49,3 +49,4 @@ Route::get("/order/{id}", [AdminPannel::class, 'order_details']);
 
 // Admin Pannel
 Route::get("admin/login", [Authenticate::class, 'login']);
+Route::post("/login-admin", [Authenticate::class, 'loginAdmin'])->name('login-admin');

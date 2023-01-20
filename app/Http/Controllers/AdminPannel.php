@@ -20,6 +20,7 @@ class AdminPannel extends Controller
         return view("category")->with('category', $category);
     }
     public function customers() {
+        $user = User::all();
         $customers = Customer::all();
         return view("adminpanel/customers")->with('customers', $customers);
     }

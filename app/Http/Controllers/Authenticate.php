@@ -20,7 +20,20 @@ class Authenticate extends Controller
     }
     public function loginAdmin(Request $request) {
         $request->validate([
-            'username' =>
-        ])
+            'username' => 'required|min:5|max:15',
+            'password' => 'required',
+        ]);
+        $admin = User::where("user_username", $request->username)->first();
+        if($admin) {
+            if($request->password = $admin->user_password){
+                $request->session()->put('logginId', $admin->id);
+                return redirect('/customers');
+            }else {
+                return back()->with('fail', "Password is incorrect");
+            }
+        }else {
+            return back()->with('fail', "Accaunt not found");
+        }
+
     }
 }
