@@ -25,7 +25,7 @@ class AdminPannel extends Controller
         return view("adminpanel/customers")->with('customers', $customers);
     }
     public function customer_details($id) {
-        
+          
         $customer = Customer::find($id);
         // $orders = Order::where('customer_id', $id)->get();
         return view("adminpanel/customer")
