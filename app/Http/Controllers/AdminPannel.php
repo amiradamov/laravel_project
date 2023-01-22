@@ -19,6 +19,13 @@ class AdminPannel extends Controller
         // dd($category);
         return view("category")->with('category', $category);
     }
+    public function user_page() {
+        $data = array();
+        if (Session::has('logginId')) {
+            $data = User::where('id', Session::get('logginId'))->first();
+        }
+        return view('adminpanel/user_page', copact('data'));
+    }
     public function customers() {
         $user = User::all();
         $customers = Customer::all();

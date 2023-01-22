@@ -43,6 +43,7 @@ Route::get("/edit-user", [AAuthController::class, 'editUser'])->name('setting-us
 //     'item_status' => 1]);
 // });
 
+
 Route::get("/customers", [AdminPannel::class, 'customers']);
 Route::get("/customer/{id}", [AdminPannel::class, 'customer_details']);
 Route::get("/order/{id}", [AdminPannel::class, 'order_details']);
@@ -50,3 +51,5 @@ Route::get("/order/{id}", [AdminPannel::class, 'order_details']);
 // Admin Pannel
 Route::get("admin/login", [Authenticate::class, 'login']);
 Route::post("/login-admin", [Authenticate::class, 'loginAdmin'])->name('login-admin');
+Route::get("admin/adminpage", [Authenticate::class, 'user_page'])->middleware('isAdminUserLoggedIn');
+Route::get("admin/logout", [Authenticate::class, 'logout']);
