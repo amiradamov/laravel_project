@@ -14,7 +14,7 @@
 </head>
 <body>
     <!-- Vertical navbar -->
-<div class="vertical-nav" id="sidebar" style="background-color: #363636">
+<div class="vertical-nav" id="sidebar" style="background-color: #363636; overflow: auto;">
     <div class="py-4 px-3 mb-" style="background-color: black">
       <div class="media d-flex align-items-center"><img src="https://bootstrapious.com/i/snippets/sn-v-nav/avatar.png" alt="..." width="95" class="mr-3 rounded-circle img-thumbnail shadow-sm">
         <div class="media-body">
@@ -26,58 +26,15 @@
   
     {{-- <p class="text-gray font-weight-bold text-uppercase px-3 small pb-4 mb-0">Main</p> --}}
   
-    <ul class="nav flex-column mb-0">
-      <li class="nav-item">
-        <a href="#" class="nav-link" style="background-color: #272727">
-                  <i class="fa fa-th-large mr-3 text-primary fa-fw"></i>
-                  Customers
-        </a>
+    <ul class="nav flex-column" style="height: 830px">
+      @yield('menu')
+      <li class="nav-item mt-auto p-2">
+        <hr  style="height:0.5px; width:100%; border-width:0; color:red; background-color:#505050">
+        <div class="d-flex justify-content-center">
+          <a href=""><button type="button" class="btn"  style=" color: #ffffff; padding: 5px 50px; font-size: 20px; background-color: #FF0000">Log Out</button></a>
+        </div>
       </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link">
-                  <i class="fa fa-address-card mr-3 text-primary fa-fw"></i>
-                  Orders
-              </a>
-      </li>
-      <hr  style="height:0.5px; width:100%; border-width:0; color:red; background-color:#505050">
-      <li class="nav-item">
-        <a href="#" class="nav-link">
-                  <i class="fa fa-cubes mr-3 text-primary fa-fw"></i>
-                  Categories
-              </a>
-      </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link">
-                  <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
-                  Items
-              </a>
-      </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link">
-                  <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
-                  Ingredients
-              </a>
-      </li>
-      <hr  style="height:0.5px; width:100%; border-width:0; color:red; background-color:#505050">
-      <li class="nav-item">
-        <a href="#" class="nav-link">
-                  <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
-                  User Types
-              </a>
-      </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link">
-                  <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
-                  Payment Method
-              </a>
-      </li>
-      <hr  style="height:0.5px; width:100%; border-width:0; color:red; background-color:#505050">
-      <li class="nav-item">
-        <a href="#" class="nav-link col-sm-5 text-truncate">
-                  <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
-                  Staff
-              </a>
-      </li>
+      
     </ul> 
   </div>
   <!-- End vertical navbar -->
