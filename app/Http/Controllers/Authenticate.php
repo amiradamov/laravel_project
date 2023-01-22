@@ -23,14 +23,20 @@ class Authenticate extends Controller
             'username' => 'required|min:5|max:15',
             'password' => 'required',
         ]);
-        $admin = User::where("user_username", $request->username)->first();
-        if($admin) {
-            if($request->password = $admin->user_password){
-                $request->session()->put('logginId', $admin->id);
-                return redirect('/customers');
+
+        $user = User::where("user_username", $request->username)->first();
+        if($user) {
+            if($user->user_status = 1){
+                if($request->password = $user->user_password){
+                    $request->session()->put('logginId', $user->id);
+                    return redirect('/customers');
+                }else {
+                    return back()->with('fail', "Password is incorrect");
+                }
             }else {
-                return back()->with('fail', "Password is incorrect");
+                return back()->with('fail', "This user was banned");
             }
+            
         }else {
             return back()->with('fail', "Accaunt not found");
         }

@@ -1,8 +1,18 @@
 @extends('layouts.app')
+@section('info')
+    <div class="py-4 px-3 mb-" style="background-color: black">
+        <div class="media d-flex align-items-center"><img src="https://bootstrapious.com/i/snippets/sn-v-nav/avatar.png" alt="..." width="95" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+        <div class="media-body">
+            <h4 class="m-0 text-right" style="color: white">Jason Doe</h4>
+            <p class="font-weight-light text-muted mb-2 text-right">admin</p>
+        </div>
+        </div>
+    </div>
+@endsection
 @section('menu')
 
   <li class="nav-item">
-    <a href="#" class="nav-link" style="background-color: #272727">
+    <a href="/customers" class="nav-link" style="background-color: #272727">
               <i class="fa fa-th-large mr-3 text-primary fa-fw"></i>
               Customers
     </a>
