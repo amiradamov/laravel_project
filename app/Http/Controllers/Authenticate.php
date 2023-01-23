@@ -52,13 +52,13 @@ class Authenticate extends Controller
             $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
 
     // Access for different type of users ///////////////////////
-            if($user_type = 'admin'){
+            if($user_type == 'admin'){
                 $request->session()->put('user_admin', $user_type);
             }
-            if($user_type = 'moderator'){
+            if($user_type == 'moderator'){
                 $request->session()->put('user_moderator', $user_type);
             }
-            if($user_type = 'editor'){
+            if($user_type == 'editor'){
                 $request->session()->put('user_editor', $user_type);
             }
         return view('adminpanel/user_page')

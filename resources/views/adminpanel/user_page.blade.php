@@ -1,65 +1,6 @@
-@section('css')
-    color: green;
-@endsection
+
 @extends('layouts.app')
 @section('menu')
-
-  <li class="nav-item">
-    <a href="/customers" class="nav-link" style="background-color: #272727">
-              <i class="fa fa-th-large mr-3 text-primary fa-fw"></i>
-              Customers
-    </a>
-  </li>
-  <li class="nav-item">
-    <a href="#" class="nav-link">
-              <i class="fa fa-address-card mr-3 text-primary fa-fw"></i>
-              Orders
-          </a>
-  </li>
-  <hr  style="height:0.5px; width:100%; border-width:0; color:red; background-color:#505050">
-  <li class="nav-item">
-    <a href="#" class="nav-link">
-              <i class="fa fa-cubes mr-3 text-primary fa-fw"></i>
-              Categories
-          </a>
-  </li>
-  <li class="nav-item">
-    <a href="#" class="nav-link">
-              <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
-              Items
-          </a>
-  </li>
-  <li class="nav-item">
-    <a href="#" class="nav-link">
-              <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
-              Ingredients
-          </a>
-  </li>
-  <hr  style="height:0.5px; width:100%; border-width:0; color:red; background-color:#505050">
-  <li class="nav-item">
-    <a href="#" class="nav-link">
-              <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
-              User Types
-          </a>
-  </li>
-  <li class="nav-item">
-    <a href="#" class="nav-link">
-              <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
-              Payment Method
-          </a>
-  </li>
-  <hr  style="height:0.5px; width:100%; border-width:0; color:red; background-color:#505050">
-  <li class="nav-item">
-    <a href="#" class="nav-link col-sm-5 text-truncate">
-              <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
-              Staff
-          </a>
-  </li>
-  <li class="nav-item">
-    <div class="d-flex justify-content-center" style>
-      <a href=""><button type="button" class="btn"  style=" color: #FFC700; padding: 5px 50px; font-size: 20px; background-color: #494949;">Edit Info</button></a>
-    </div>
-  </li>
 
 @endsection
 

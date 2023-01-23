@@ -97,6 +97,7 @@
   @endif
 
   @if(Session('moderator'))
+  
   @endif
 
   @if (Session('editor'))
