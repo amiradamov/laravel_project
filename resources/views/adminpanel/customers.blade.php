@@ -37,21 +37,22 @@
     <hr  style=" background-color:#ffffff">
     {{-- <div class="container"> --}}
       @forelse ($customers as $customer)
-      <div class="row py-2 px-2 blonde" style="background-color: #565656; border-radius: 12px;">
+      <a href="" class="" style="font-size: 20px; color: white">
+      <div class="row py-1 px-2 blonde mb-2" style="background-color: #565656; border-radius: 12px;">
         <div class="col-xm">
-          <img src="https://bootstrapious.com/i/snippets/sn-v-nav/avatar.png" alt="..." width="120" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+          <img src="https://bootstrapious.com/i/snippets/sn-v-nav/avatar.png" alt="..." width="70" class="mr-3 rounded-circle img-thumbnail shadow-sm" style="background-color: #FFC700">
         </div>
-        <div class="col-sm">
+        <div class="col-sm pt-4">
           {{$customer->customer_first_name}} {{$customer->customer_last_name}}
         </div>
-        <div class="col-sm">
+        <div class="col-sm pt-4">
           {{$customer->email}}
         </div>
-        <div class="col-sm">
+        <div class="col-sm pt-4 text-center">
           {{$customer->order_num}}
         </div>
       </div>
-      <br>
+    </a>
       @empty
           
       @endforelse
