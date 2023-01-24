@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Ingredient;
 use App\Models\Customer;
@@ -51,7 +52,7 @@ class Authenticate extends Controller
             $data = User::where('id', Session::get('logginId'))->first();
             $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
 
-    // Access for different type of users ///////////////////////
+        // Access for different type of users ///////////////////////
             if($user_type == 'admin'){
                 $request->session()->put('user_admin', $user_type);
             }
@@ -66,6 +67,23 @@ class Authenticate extends Controller
             ->with('user_type', $user_type);
     }
 }
+    // CUSTOMERS PAGE ///////////////////////////////////////////////
+    public function customers() {
+        $data = User::where('id', Session::get('logginId'))->first();
+        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
+        // $customers = Customer::all();
+
+        $customers = DB::table('orders')
+                    ->selectRaw('customers.*, COUNT(orders.customer_id) as order_num')
+                    ->join('customers', 'orders.customer_id', '=', 'customers.id')
+                    ->groupBy('id')
+                    ->get();
+                    // dd($customers);
+        return view("adminpanel/customers")
+            ->with('customers', $customers)
+            ->with('data', $data)
+            ->with('user_type', $user_type);
+    }
 
     // Lot Out ////////////////////////////////////////////////
     public function logout() {

@@ -52,4 +52,6 @@ Route::get("/order/{id}", [AdminPannel::class, 'order_details']);
 Route::get("admin/login", [Authenticate::class, 'login']);
 Route::post("/login-admin", [Authenticate::class, 'loginAdmin'])->name('login-admin');
 Route::get("admin/adminpage", [Authenticate::class, 'user_page'])->middleware('isAdminUserLoggedIn');
+Route::get("admin/customers", [Authenticate::class, 'customers'])->middleware('isAdminUserLoggedIn');
+// Log Out Admin Pannel
 Route::get("admin/logout", [Authenticate::class, 'logout']);
