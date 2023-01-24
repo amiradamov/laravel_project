@@ -2,40 +2,24 @@
 @section('menu')
 
 @endsection
-{{-- <div>
-        <table class="table table-dark">
-            <tr>
-                <th>#</th>
-                <th>name</th>
-                <th>surname</th>
-                <th>email</th>
-                <th>phone</th>
-                <th>address</th>
-                <th>Check orders</th>
-            </tr>
-            @forelse ($customers as $customer)
-                <tr>
-                    <td>{{$customer->id}}</td>
-                    <td>{{$customer->customer_first_name}}</td>
-                    <td>{{$customer->customer_last_name}}</td>
-                    <td>{{$customer->email}}</td>
-                    <td>{{$customer->customer_phone_number}}</td>
-                    <td>{{$customer->address}}</td>
-                    <td>
-                        <a href="{{ URL::to('customer/'.$customer->id) }}">View</a>
-                    </td>
-                </tr>
-            @empty
-                
-            @endforelse
-        </table>
-</div> --}}
 
 @section('body')
-    <!-- Demo content -->
     <h2 class="display-4 text-white">Customers</h2>
     <hr  style=" background-color:#ffffff">
-    {{-- <div class="container"> --}}
+      
+      {{-- Search --}}
+      <form action="">
+          <div class="row mb-5 py-1 px-0 form-group" style="background-color: #D9D9D9; border-radius: 12px; ">
+            <div class="col py-1">
+              <input type="search" name="search" id="" class="form-control" placeholder="Search by name or email" style="border-radius: 12px;">
+            </div>
+            <div class="col pr-5 pl-0 py-1">
+              <button class="btn" style="background-color:#494949; color: white; border-radius: 12px;">
+                Search
+              </button>
+            </div>
+          </div>
+      </form>
       @forelse ($customers as $customer)
       <a href="" class="" style="font-size: 20px; color: white">
       <div class="row py-1 px-2 blonde mb-2" style="background-color: #565656; border-radius: 12px;">
@@ -56,5 +40,4 @@
       @empty
           
       @endforelse
-    {{-- </div> --}}
 @endsection

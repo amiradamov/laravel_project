@@ -72,7 +72,7 @@ class Authenticate extends Controller
         $data = User::where('id', Session::get('logginId'))->first();
         $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
         // $customers = Customer::all();
-
+        
         $customers = DB::table('orders')
                     ->selectRaw('customers.*, COUNT(orders.customer_id) as order_num')
                     ->join('customers', 'orders.customer_id', '=', 'customers.id')
