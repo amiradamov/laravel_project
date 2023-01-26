@@ -30,67 +30,67 @@
   @if (Session('user_admin'))
     <ul class="nav flex-column" style="height: 830px">
 
-    <li class="nav-item">
+    <li class="nav-item customer menu">
       <a href="customers" class="nav-link">
                 <i class="fa fa-th-large mr-3 text-primary fa-fw"></i>
                 Customers
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item menu">
       <a href="#" class="nav-link">
                 <i class="fa fa-address-card mr-3 text-primary fa-fw"></i>
                 Orders
             </a>
     </li>
     <hr  style="height:0.5px; width:100%; border-width:0; color:red; background-color:#505050">
-    <li class="nav-item">
+    <li class="nav-item menu">
       <a href="#" class="nav-link">
                 <i class="fa fa-cubes mr-3 text-primary fa-fw"></i>
                 Categories
             </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item menu">
       <a href="#" class="nav-link">
                 <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
                 Items
             </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item menu">
       <a href="#" class="nav-link">
                 <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
                 Ingredients
             </a>
     </li>
     <hr  style="height:0.5px; width:100%; border-width:0; color:red; background-color:#505050">
-    <li class="nav-item">
+    <li class="nav-item menu">
       <a href="#" class="nav-link">
                 <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
                 User Types
             </a>
     </li>
     <li class="nav-item">
-      <a href="#" class="nav-link">
+      <a href="#" class="nav-link menu">
                 <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
                 Payment Method
             </a>
     </li>
     <hr  style="height:0.5px; width:100%; border-width:0; color:red; background-color:#505050">
-    <li class="nav-item">
+    <li class="nav-item menu">
       <a href="#" class="nav-link col-sm-5 text-truncate">
                 <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
                 Staff
             </a>
     </li>
     <li class="nav-item">
-      <div class="d-flex justify-content-center" style>
-        <a href=""><button type="button" class="btn"  style=" color: #FFC700; padding: 5px 50px; font-size: 20px; background-color: #494949;">Edit Info</button></a>
+      <div class="d-flex justify-content-center">
+        <a href=""><button type="button" class="btn menu_button" >Edit Info</button></a>
       </div>
     </li>
     
     <li class="nav-item mt-auto p-2">
       <hr  style="height:0.5px; width:100%; border-width:0; color:red; background-color:#505050">
       <div class="d-flex justify-content-center">
-        <a href="logout"><button type="button" class="btn"  style=" color: #ffffff; padding: 5px 50px; font-size: 20px; background-color: #FF0000">Log Out</button></a>
+        <a href="logout"><button type="button" class="btn menu_logout">Log Out</button></a>
       </div>
     </li>
     
@@ -208,8 +208,6 @@
     <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4"><i class="fa fa-bars mr-2"></i><small class="text-uppercase font-weight-bold">Toggle</small></button>
 
     @yield('body')
-
-  </div>
     @yield('footer')
 </body>
 

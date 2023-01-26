@@ -4,19 +4,29 @@
 @endsection
 
 @section('body')
+    <style>
+      .customer {
+        background-color: #272727;
+      }
+    </style>
     <h2 class="display-4 text-white">Customers</h2>
     <hr  style=" background-color:#ffffff">
       
       {{-- Search --}}
       <form action="">
-          <div class="row mb-5 py-1 px-0 form-group" style="background-color: #D9D9D9; border-radius: 12px; ">
-            <div class="col py-1">
-              <input type="search" name="search" id="" class="form-control" placeholder="Search by name or email" style="border-radius: 12px;">
+          <div class="row mb-5 py-1 form-group " style="background-color: #D9D9D9; border-radius: 12px; "> 
+            <div class="py-1 w-25 ml-3">
+              <input type="search" name="search" id="" value="{{$search}}" class="form-control w-100  pr-6" placeholder="Search by name or email" style="border-radius: 12px;">
             </div>
-            <div class="col pr-5 pl-0 py-1">
+            <div class="col py-1" >
               <button class="btn" style="background-color:#494949; color: white; border-radius: 12px;">
                 Search
               </button>
+              <a href="{{url('admin/customers')}}">
+                <button class="btn" type="button" style="background-color:#494949; color: white; border-radius: 12px;">
+                  Reset
+                </button>
+              </a>
             </div>
           </div>
       </form>
@@ -41,3 +51,18 @@
           
       @endforelse
 @endsection
+
+@section('footer')
+  <div class="row container">
+    <div class="col-3">
+      Showing {{$customers->firstItem()}} - {{$customers->lastItem()}} of {{$customers->total()}}
+    </div>
+    <div class="col-0">
+      <div class="btn-group float-end" style="color: yellow">
+        {{$customers->links()}}
+      </div>
+    </div>
+  </div>
+
+@endsection
+

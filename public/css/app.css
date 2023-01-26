@@ -1,3 +1,27 @@
+.menu:hover {
+  background-color: #2c2c2c;
+}
+.menu_button {
+  color: #FFC700; 
+  padding: 5px 50px; 
+  font-size: 20px; 
+  background-color: #494949;
+}
+.menu_button:hover {
+  color: #FFC700; 
+  background-color: #474747;
+}
+.menu_logout {
+  color: #ffffff; 
+  padding: 5px 50px; 
+  font-size: 20px; 
+  background-color: #FF0000
+}
+.menu_logout:hover {
+  color: #ffffff; 
+  background-color: #e00707
+}
+
 .nav-item a {
     color: #FFC700;
     font-size: 20px;

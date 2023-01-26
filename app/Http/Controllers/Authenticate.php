@@ -68,18 +68,30 @@ class Authenticate extends Controller
     }
 }
     // CUSTOMERS PAGE ///////////////////////////////////////////////
-    public function customers() {
+    public function customers(Request $request) {
         $data = User::where('id', Session::get('logginId'))->first();
         $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
-        // $customers = Customer::all();
-        
-        $customers = DB::table('orders')
-                    ->selectRaw('customers.*, COUNT(orders.customer_id) as order_num')
-                    ->join('customers', 'orders.customer_id', '=', 'customers.id')
-                    ->groupBy('id')
-                    ->get();
-                    // dd($customers);
+
+        $search = $request['search'] ?? "";
+        if ($search != "") {
+            $customers = DB::table('orders')
+            ->selectRaw('customers.*, COUNT(orders.customer_id) as order_num')
+            ->where('customer_first_name', 'LIKE', "%$search%")
+            ->orWhere('customer_last_name', 'LIKE', "%$search%")
+            ->orWhere('email', 'LIKE', "%$search%")
+            ->join('customers', 'orders.customer_id', '=', 'customers.id')
+            ->groupBy('id')
+            ->paginate(10);
+        }else {
+            $customers = DB::table('orders')
+            ->selectRaw('customers.*, COUNT(orders.customer_id) as order_num')
+            ->join('customers', 'orders.customer_id', '=', 'customers.id')
+            ->groupBy('id')
+            ->paginate(10);
+            // dd($customers);
+        }
         return view("adminpanel/customers")
+            ->with('search', $search)
             ->with('customers', $customers)
             ->with('data', $data)
             ->with('user_type', $user_type);
