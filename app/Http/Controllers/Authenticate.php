@@ -128,6 +128,16 @@ class Authenticate extends Controller
         ->with('customer', $customer);
     }
 
+    // Edit Page ////////////////////////////////////////////////
+    public function admin_edit_customer($id) {
+        $data = User::where('id', Session::get('logginId'))->first();
+        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
+
+        return view("adminpanel/edit/admin_edit_customer")
+        ->with('data', $data)
+        ->with('user_type', $user_type);
+    }
+
     // Lot Out ////////////////////////////////////////////////
     public function logout() {
         if(Session::has('logginId')) {

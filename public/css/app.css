@@ -136,3 +136,9 @@
   grid-column-gap: 10px;
   grid-row-gap: 10px;
 }
+
+/* Admin Customer Edit */
+
+.editadmin label {
+  color: #FFC700;
+}
