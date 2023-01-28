@@ -11,9 +11,11 @@
 
 <div class="container text-center"> 
     {{-- <div class="col py-1" > --}}
-      <button class="btn-lg" style="background-color:#494949; color: #FFC700; border-radius: 12px; border-width: 0">
-        Edit
-      </button>
+      <a href="{{ URL::to('admin/customer/'.$customer->id.'/edit') }}">
+        <button class="btn-lg" style="background-color:#494949; color: #FFC700; border-radius: 12px; border-width: 0">
+          Edit Profile
+        </button>
+      </a>
       <a href="{{url('admin/customers')}}">
         <button class="btn-lg" type="button" style="background-color:red; color: white; border-radius: 12px; border-width: 0">
           Delete Account
