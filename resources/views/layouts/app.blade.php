@@ -17,7 +17,7 @@
   <div class="py-4 px-3" style="background-color: black">
     <div class="media d-flex align-items-center">
       <img src="https://bootstrapious.com/i/snippets/sn-v-nav/avatar.png" alt="..." width="95" class="mr-3 rounded-circle img-thumbnail shadow-sm">
-      <a href="adminpage">
+      <a href="{{ url('admin/adminpage') }}">
         <div class="media-body">
           <h5 class="m-0 text-right" style="color: white">{{$data['name']}}</h5>
           <p class="font-weight-light text-muted mb-2 text-right">{{$user_type}}</p>
@@ -31,7 +31,7 @@
     <ul class="nav flex-column" style="height: 830px">
 
     <li class="nav-item customer menu">
-      <a href="customers" class="nav-link">
+      <a href="{{ url('admin/customers') }}" class="nav-link">
                 <i class="fa fa-th-large mr-3 text-primary fa-fw"></i>
                 Customers
       </a>

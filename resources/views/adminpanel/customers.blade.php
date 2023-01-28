@@ -30,8 +30,10 @@
             </div>
           </div>
       </form>
+      
+      {{-- Orders --}}
       @forelse ($customers as $customer)
-      <a href="" class="" style="font-size: 20px; color: white">
+      <a href="{{ URL::to('admin/customer/'.$customer->id) }}" class="" style="font-size: 20px; color: white">
       <div class="row py-1 px-2 blonde mb-2" style="background-color: #565656; border-radius: 12px;">
         <div class="col-xm">
           <img src="https://bootstrapious.com/i/snippets/sn-v-nav/avatar.png" alt="..." width="70" class="mr-3 rounded-circle img-thumbnail shadow-sm" style="background-color: #FFC700">
