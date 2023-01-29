@@ -144,9 +144,10 @@
                           </div>
                           <div class="col-12 col-sm-6 mb-3">
                             <div class="mb-2 text-secondary"><b>Change Status</b></div>
-
-                            <input type="checkbox" checked data-toggle="toggle" data-size="lg">
                             <hr  style=" background-color:#ffffff">
+
+                            <input type="checkbox"  checked data-toggle="toggle" data-on="Activated" data-off="Diactivated" data-onstyle="success" data-offstyle="danger" value="{{$customer->customer_status}}" name="status">
+
                           </div>
                         </div>
                         <div class="row">

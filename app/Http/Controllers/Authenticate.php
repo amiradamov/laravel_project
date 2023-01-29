@@ -179,6 +179,7 @@ class Authenticate extends Controller
                 // 'current_password' => 'required',
                 'new_password' => 'required|min:5|max:15',
                 'confirm_password' => 'required|min:5|max:15',
+                'status' => 'required'
             ]);
             // if ($request->current_password == $customer->customer_password) {
                 if($request->new_password == $request->confirm_password) {
