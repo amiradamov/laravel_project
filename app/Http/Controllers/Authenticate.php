@@ -45,7 +45,13 @@ class Authenticate extends Controller
 
     }
 
-    // USER PAGE ///////////////////////////////////////////////
+  /*
+  *
+  * ==========================================
+  * USER PAGE
+  * ==========================================
+  *
+  */
     public function user_page(Request $request) {
         $data = array();
         if (Session::has('logginId')) {
@@ -67,7 +73,13 @@ class Authenticate extends Controller
             ->with('user_type', $user_type);
     }
 }
-    // CUSTOMERS PAGE ///////////////////////////////////////////////
+  /*
+  *
+  * ==========================================
+  * CUSTOMERS PAGE
+  * ==========================================
+  *
+  */
     public function customers(Request $request) {
         $data = User::where('id', Session::get('logginId'))->first();
         $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
@@ -96,7 +108,14 @@ class Authenticate extends Controller
             ->with('data', $data)
             ->with('user_type', $user_type);
     }
-    // CUSTOMER_DETAIL PAGE ///////////////////////////////////////////////
+  
+    /*
+  *
+  * ==========================================
+  * CUSTOMER_DETAIL PAGE
+  * ==========================================
+  *
+  */
     public function customer_details($id, Request $request) {
         $data = User::where('id', Session::get('logginId'))->first();
         $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
@@ -127,18 +146,37 @@ class Authenticate extends Controller
         ->with('user_type', $user_type)
         ->with('customer', $customer);
     }
-
-    // Edit Page ////////////////////////////////////////////////
+    
+  /*
+  *
+  * ==========================================
+  * Edit Page
+  * ==========================================
+  *
+  */
     public function admin_edit_customer($id) {
         $data = User::where('id', Session::get('logginId'))->first();
         $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
 
+        $customer = Customer::where('id', $id)->first();
         return view("adminpanel/edit/admin_edit_customer")
         ->with('data', $data)
+        ->with('customer', $customer)
         ->with('user_type', $user_type);
     }
 
-    // Lot Out ////////////////////////////////////////////////
+    public function admin_update_customer(Request $request, $id) {
+        return redirect("admin/customer/"+$id)
+        ->with("id", $id);
+    }
+
+  /*
+  *
+  * ==========================================
+  * Lot Out
+  * ==========================================
+  *
+  */
     public function logout() {
         if(Session::has('logginId')) {
             Session::pull('logginId');
