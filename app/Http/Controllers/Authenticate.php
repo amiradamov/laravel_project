@@ -183,7 +183,6 @@ class Authenticate extends Controller
             if ($request->current_password == $customer->customer_password) {
                 if($request->new_password == $request->confirm_password) {
                     Customoer::where("id", $id)->update([
-                $table->string('customer_first_name')->nullable();
                         'customer_first_name' => $request->firstname,
                         'customer_last_name' => $request->lastname,
                         'customer_username' => $request->username,
@@ -193,7 +192,7 @@ class Authenticate extends Controller
                         'customer_password' => Hash::make($request->confirm_password),
                         // customer_status
                     ]);
-                    return back()->>with("success", "Customer succesfuly updated.");
+                    return back()->with("success", "Customer succesfuly updated.");
                 } else {
                     return back()->with("fail", "Password does not match.");
                 }

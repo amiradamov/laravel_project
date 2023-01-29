@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('body')
 <div class="container editadmin">
+  <p>amir</p>
     <div class="row flex-lg-nowrap">
     
       <div class="col">
@@ -123,7 +124,7 @@
                         </div>
                         <div class="row">
                           <div class="col d-flex justify-content-end">
-                            <button class="btn bg-success" type="submit" style="color: white" name="submit">Save Changes</button>
+                            <button class="btn bg-success" type="submit" style="color: white" name="submit" value="submit">Save Changes</button>
                           </div>
                         </div>
                       </form>
