@@ -30,6 +30,9 @@
             <div class="card" style="border: none; border-radius: 12px">
               <div class="card-body"  style="background-color: #363636; border-radius: 12px">
                 <div class="e-profile">
+                  <a href="">
+                    < Go Back
+                  </a>
                     <div class="container text-center">
                         <figure class="figure">
                             <img src="https://bootstrapious.com/i/snippets/sn-v-nav/avatar.png" alt="..." width="340" class="mr-3 rounded-circle img-thumbnail shadow-sm">
