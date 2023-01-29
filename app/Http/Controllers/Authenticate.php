@@ -166,7 +166,18 @@ class Authenticate extends Controller
     }
 
     public function admin_update_customer(Request $request, $id) {
-        return redirect("admin/customer/"+$id)
+        $request->validate([
+            'firstname' => 'required|max:40',
+            'lastname' => 'required|max:40',
+            'username' => 'required|min:5|max:15',
+            'email' => 'required|email|unique:customers',
+            'contact_number' => 'required|min:5|max:15',
+            'address' => 'required',
+            'current_password' => 'required',
+            'new_password' => 'required|min:5|max:15',
+            'confirm_password' => 'required|min:5|max:15',
+        ]);
+        return back()
         ->with("id", $id);
     }
 

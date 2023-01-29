@@ -123,7 +123,7 @@
                         </div>
                         <div class="row">
                           <div class="col d-flex justify-content-end">
-                            <button class="btn bg-success" type="submit" style="color: white">Save Changes</button>
+                            <button class="btn bg-success" type="submit" style="color: white" name="submit">Save Changes</button>
                           </div>
                         </div>
                       </form>
@@ -135,7 +135,7 @@
             </div>
           </div>
         </div>
-        <p>{{{ isset($id) ? $id : '' }}} </p>
+        {{-- <p>{{{ isset($id) ? $id : '' }}} </p> --}}
       </div>
     </div>
     </div>
