@@ -179,7 +179,7 @@ class Authenticate extends Controller
                 // 'current_password' => 'required',
                 'new_password' => 'required|min:5|max:15',
                 'confirm_password' => 'required|min:5|max:15',
-                'status' => 'required'
+                'status',
             ]);
             // if ($request->current_password == $customer->customer_password) {
                 if($request->new_password == $request->confirm_password) {
@@ -193,6 +193,15 @@ class Authenticate extends Controller
                         'customer_password' => Hash::make($request->confirm_password),
                         // customer_status
                     ]);
+                    if($request->status == 'on') {
+                        Customer::where("id", $id)->update([
+                            'customer_status' => '1'
+                        ]);
+                    } else {
+                        Customer::where("id", $id)->update([
+                            'customer_status' => '0'
+                        ]);
+                    }
                     return back()->with("success", "Customer succesfuly updated.");
                 } else {
                     return back()->with("fail", "Password does not match.");
