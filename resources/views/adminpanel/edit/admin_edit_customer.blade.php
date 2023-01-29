@@ -30,9 +30,7 @@
             <div class="card" style="border: none; border-radius: 12px">
               <div class="card-body"  style="background-color: #363636; border-radius: 12px">
                 <div class="e-profile">
-                  <a href="">
-                    < Go Back
-                  </a>
+
                     <div class="container text-center">
                         <figure class="figure">
                             <img src="https://bootstrapious.com/i/snippets/sn-v-nav/avatar.png" alt="..." width="340" class="mr-3 rounded-circle img-thumbnail shadow-sm">
@@ -144,9 +142,20 @@
                                 </div>
                             </div>
                           </div>
+                          <div class="col-12 col-sm-6 mb-3">
+                            <div class="mb-2 text-secondary"><b>Change Status</b></div>
+
+                            <input type="checkbox" checked data-toggle="toggle" data-size="lg">
+                            <hr  style=" background-color:#ffffff">
+                          </div>
                         </div>
                         <div class="row">
                           <div class="col d-flex justify-content-end">
+                            <div class="pr-3">
+                              <a href="{{ URL::to('admin/customer/'.$customer->id) }}" style="text-decoration:none; color: white" >
+                                <div class="btn" style="color: white; background-color:#494949">cancel</div>
+                              </a>
+                            </div>
                             <button class="btn bg-success" type="submit" style="color: white" name="submit" value="submit">Save Changes</button>
                           </div>
                         </div>
