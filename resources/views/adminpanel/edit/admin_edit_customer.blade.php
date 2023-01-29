@@ -1,7 +1,27 @@
 @extends('layouts.app')
 @section('body')
 <div class="container editadmin">
-  <p>amir</p>
+    @if (Session("success"))
+    <div class="alert alert-success">
+      {{session("success")}}
+    </div>
+  @endif
+  @if (Session("fail"))
+    <div class="alert alert-danger">
+      {{session("fail")}}
+    </div>
+  @endif
+    @if(count($errors))
+    <div class="form-group">
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{$error}}</li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+  @endif
     <div class="row flex-lg-nowrap">
     
       <div class="col">
@@ -82,14 +102,14 @@
                           <div class="col-12 col-sm-6 mb-3">
                             <div class="mb-2 text-secondary"><b>Change Password</b></div>
                             <hr  style=" background-color:#ffffff">
-                            <div class="row">
+                            {{-- <div class="row">
                               <div class="col">
                                 <div class="form-group">
                                   <label>Current Password</label>
                                   <input class="form-control" type="password" name="current_password" placeholder="Enter current password" value="{{$customer->customer_password}}">
                                 </div>
                               </div>
-                            </div>
+                            </div> --}}
                             <div class="row">
                                 <div class="col">
                                     <label>New <span class="d-none d-xl-inline">Password</span></label>

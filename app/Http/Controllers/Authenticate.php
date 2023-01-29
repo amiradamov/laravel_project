@@ -176,13 +176,13 @@ class Authenticate extends Controller
                 'email' => 'required|email|unique:customers',
                 'contact_number' => 'required|min:5|max:15',
                 'address' => 'required',
-                'current_password' => 'required',
+                // 'current_password' => 'required',
                 'new_password' => 'required|min:5|max:15',
                 'confirm_password' => 'required|min:5|max:15',
             ]);
-            if ($request->current_password == $customer->customer_password) {
+            // if ($request->current_password == $customer->customer_password) {
                 if($request->new_password == $request->confirm_password) {
-                    Customoer::where("id", $id)->update([
+                    Customer::where("id", $id)->update([
                         'customer_first_name' => $request->firstname,
                         'customer_last_name' => $request->lastname,
                         'customer_username' => $request->username,
@@ -196,9 +196,9 @@ class Authenticate extends Controller
                 } else {
                     return back()->with("fail", "Password does not match.");
                 }
-            } else {
-                return back()->with("fail", "Wrong password.");    
-            }
+            // } else {
+            //     return back()->with("fail", "Wrong password.");    
+            // }
         } else {
             return back()->with("fail", "Something went wrong.");
         }
