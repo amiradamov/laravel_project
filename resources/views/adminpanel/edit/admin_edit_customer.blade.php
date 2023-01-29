@@ -151,7 +151,6 @@
                             @else
                               <input type="checkbox"  data-toggle="toggle" data-on="Activated" data-off="Diactivated" data-onstyle="success" data-offstyle="danger" name="status" value="passive">
                             @endif
-{{--  --}}
                           </div>
                         </div>
                         <div class="row">
