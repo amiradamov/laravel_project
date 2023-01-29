@@ -166,19 +166,43 @@ class Authenticate extends Controller
     }
 
     public function admin_update_customer(Request $request, $id) {
-        $request->validate([
-            'firstname' => 'required|max:40',
-            'lastname' => 'required|max:40',
-            'username' => 'required|min:5|max:15',
-            'email' => 'required|email|unique:customers',
-            'contact_number' => 'required|min:5|max:15',
-            'address' => 'required',
-            'current_password' => 'required',
-            'new_password' => 'required|min:5|max:15',
-            'confirm_password' => 'required|min:5|max:15',
-        ]);
-        return back()
-        ->with("id", $id);
+        if($request->input('submit') == 'submit'){
+
+            $customer = Customer::where("id", $id)->first();
+            $request->validate([
+                'firstname' => 'required|max:40',
+                'lastname' => 'required|max:40',
+                'username' => 'required|min:5|max:15',
+                'email' => 'required|email|unique:customers',
+                'contact_number' => 'required|min:5|max:15',
+                'address' => 'required',
+                'current_password' => 'required',
+                'new_password' => 'required|min:5|max:15',
+                'confirm_password' => 'required|min:5|max:15',
+            ]);
+            if ($request->current_password == $customer->customer_password) {
+                if($request->new_password == $request->confirm_password) {
+                    Customoer::where("id", $id)->update([
+                $table->string('customer_first_name')->nullable();
+                        'customer_first_name' => $request->firstname,
+                        'customer_last_name' => $request->lastname,
+                        'customer_username' => $request->username,
+                        'email' => $request->email,
+                        'customer_phone_number' => $request->contact_number,
+                        'address' => $request->address,
+                        'customer_password' => Hash::make($request->confirm_password),
+                        // customer_status
+                    ]);
+                    return back()->>with("success", "Customer succesfuly updated.");
+                } else {
+                    return back()->with("fail", "Password does not match.");
+                }
+            } else {
+                return back()->with("fail", "Wrong password.");    
+            }
+        } else {
+            return back()->with("fail", "Something went wrong.");
+        }
     }
 
   /*
