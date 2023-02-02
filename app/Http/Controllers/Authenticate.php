@@ -170,6 +170,7 @@ class Authenticate extends Controller
 
             $customer = Customer::where("id", $id)->first();
             $request->validate([
+                // 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'firstname' => 'required|max:40',
                 'lastname' => 'required|max:40',
                 'username' => 'required|min:5|max:15',

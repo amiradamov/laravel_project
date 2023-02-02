@@ -37,10 +37,7 @@
                             <figcaption class="figure-caption text-center text-uppercase" style="font-size: 25px; color: white">
                                 <div>{{$customer->customer_first_name}} {{$customer->customer_last_name}}</div>
                                 <p class="mb-0 text-secondary" style="font-size: 12px"> {{$customer->customer_username}}</p>
-                                <button class="btn" style="background-color:#494949; color: #FFC700; border-radius: 12px; border-width: 0">
-                                    <i class="fa fa-fw fa-camera"></i>
-                                    <span>Change Photo</span>
-                                  </button>
+                                <input type="file" class="form-control" required name="image">
                             </figcaption>
                         </figure>
                     </div>
@@ -164,7 +161,6 @@
                           </div>
                         </div>
                       </form>
-    
                     </div>
                   </div>
                 </div>
@@ -172,7 +168,6 @@
             </div>
           </div>
         </div>
-        {{-- <p>{{{ isset($id) ? $id : '' }}} </p> --}}
       </div>
     </div>
     </div>
