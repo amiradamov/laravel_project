@@ -64,5 +64,6 @@ Route::get("admin/customer/{id}/edit", [Authenticate::class, 'admin_edit_custome
 // Customer update
 Route::post("/update-admin-customer/{id}", [Authenticate::class, 'admin_update_customer'])->name('update-admin-customer');
 
+
 // Log Out Admin Pannel
 Route::get("admin/logout", [Authenticate::class, 'logout']);
