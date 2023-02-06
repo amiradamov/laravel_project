@@ -33,11 +33,16 @@
 
                     <div class="container text-center">
                         <figure class="figure">
+                          @if ($customer->profile_image == "")
                             <img src="https://bootstrapious.com/i/snippets/sn-v-nav/avatar.png" alt="..." width="340" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+                          @else
+                            <img src="{{$customer->profile_image}}" alt="..." width="340" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+                          @endif
+
                             <figcaption class="figure-caption text-center text-uppercase" style="font-size: 25px; color: white">
                                 <div>{{$customer->customer_first_name}} {{$customer->customer_last_name}}</div>
                                 <p class="mb-0 text-secondary" style="font-size: 12px"> {{$customer->customer_username}}</p>
-                                <input type="file" class="form-control" required name="image">
+                                <input type="file" class="form-control" name="file" id="file">
                             </figcaption>
                         </figure>
                     </div>

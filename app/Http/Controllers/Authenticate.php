@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Ingredient;
@@ -170,7 +171,6 @@ class Authenticate extends Controller
 
             $customer = Customer::where("id", $id)->first();
             $request->validate([
-                // 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'firstname' => 'required|max:40',
                 'lastname' => 'required|max:40',
                 'username' => 'required|min:5|max:15',
@@ -182,6 +182,12 @@ class Authenticate extends Controller
                 'confirm_password' => 'required|min:5|max:15',
                 'status',
             ]);
+            if ($request->hasfile('file')) {
+                $file = $request->file('file');
+                $extention = $file->getClientOriginalExtension();
+            }else{
+                $file = "";  
+            }
             // if ($request->current_password == $customer->customer_password) {
                 if($request->new_password == $request->confirm_password) {
                     Customer::where("id", $id)->update([
