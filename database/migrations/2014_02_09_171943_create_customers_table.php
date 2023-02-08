@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('customer_phone_number')->nullable();
             $table->string('address')->nullable();
-            $table->string('profile_image')->nullable();
+            $table->binary('profile_image')->nullable();
             $table->string('customer_username')->nullable();
             $table->string('customer_password')->nullable();
             $table->boolean('customer_status');
