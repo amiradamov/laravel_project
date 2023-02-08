@@ -56,7 +56,7 @@ class Authenticate extends Controller
         $data = array();
         if (Session::has('logginId')) {
             $data = User::where('id', Session::get('logginId'))->first();
-            $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
+            $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('user_type_id'))->value('user_type_name');
 
         // Access for different type of users ///////////////////////
             if($user_type == 'admin'){
