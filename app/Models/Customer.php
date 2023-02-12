@@ -19,6 +19,7 @@ class Customer extends Model
         'profile_image',
         'customer_username',
         'customer_password',
+        'customer_status'
     ];
 
     /**

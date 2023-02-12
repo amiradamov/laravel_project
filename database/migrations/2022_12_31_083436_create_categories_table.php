@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('category_name')->unique();
             $table->longText('description')->nullable();
-            $table->boolean('category_status');
+            $table->boolean('category_status')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

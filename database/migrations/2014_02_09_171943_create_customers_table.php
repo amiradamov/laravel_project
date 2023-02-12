@@ -25,7 +25,7 @@ return new class extends Migration
             $table->binary('profile_image')->nullable();
             $table->string('customer_username')->nullable();
             $table->string('customer_password')->nullable();
-            $table->boolean('customer_status');
+            $table->boolean('customer_status')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

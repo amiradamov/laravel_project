@@ -12,8 +12,6 @@ class Order extends Model
     protected $fillable = [
         "customer_id",
         "total_amount",
-        "proccessed_by",
-        "order_status",
     ];
     /**
      * The item that belong to the Order

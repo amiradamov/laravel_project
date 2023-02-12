@@ -9,8 +9,8 @@
         background-color: #272727;
       }
     </style>
-    <h2 class="display-4 text-white">Customers</h2>
-    <hr  style=" background-color:#ffffff">
+      <h2 class="display-4 text-white">Customers</h2>
+      <hr  style=" background-color:#ffffff">
       
       {{-- Search --}}
       <form action="">
@@ -25,6 +25,13 @@
               <a href="{{url('admin/customers')}}">
                 <button class="btn" type="button" style="background-color:#494949; color: white; border-radius: 12px;">
                   Reset
+                </button>
+              </a>
+            </div>
+            <div class="col py-1 d-flex justify-content-end">
+              <a href="{{url('admin/customers')}}">
+                <button class="btn" type="button" style="background-color:#494949; color: white; border-radius: 12px;">
+                  Create New Profile
                 </button>
               </a>
             </div>

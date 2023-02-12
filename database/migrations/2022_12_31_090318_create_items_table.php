@@ -24,7 +24,7 @@ return new class extends Migration
                 ->onDelete('restrict');
             $table->binary('item_image')->nullable();
             $table->json('item_ingredients')->nullable();
-            $table->boolean('item_status');
+            $table->boolean('item_status')->default(1);
             $table->timestamps();  
         });
     }

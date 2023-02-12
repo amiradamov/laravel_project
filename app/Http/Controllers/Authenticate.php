@@ -180,7 +180,7 @@ class Authenticate extends Controller
                     'required','nullable','string','email','max:255',
                     Rule::unique('customers')->ignore($customer->id),
                 ],
-                'contact_number' => 'required|min:5|max:15',
+                'contact_number' => 'required|min:5|max:20',
                 'address' => 'required',
                 // 'current_password' => 'required',
                 'new_password' => 'nullable|min:5|max:15|confirmed',

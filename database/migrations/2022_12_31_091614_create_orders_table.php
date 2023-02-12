@@ -20,13 +20,15 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
             $table->boolean('total_amount');
-            $table->unsignedBigInteger('proccessed_by');
+            $table->unsignedBigInteger('proccessed_by')
+            ->nullable();
             $table->foreign('proccessed_by')
+                ->nullable()
                 ->references('id')
                 ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
-            $table->boolean('order_status');
+            $table->boolean('order_status')->default(0);
             $table->timestamps();
         });
     }

@@ -24,9 +24,10 @@ return new class extends Migration
                 ->onDelete('restrict');
             $table->string('user_phone_number');
             $table->string('address');
+            $table->binary('profile_image')->nullable();
             $table->string('user_username');
             $table->string('user_password');
-            $table->boolean('user_status');
+            $table->boolean('user_status')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });
