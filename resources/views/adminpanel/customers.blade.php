@@ -29,7 +29,7 @@
               </a>
             </div>
             <div class="col py-1 d-flex justify-content-end">
-              <a href="{{url('admin/customers')}}">
+              <a href="{{url('admin/'.$data->id.'/create/customer')}}">
                 <button class="btn" type="button" style="background-color:#494949; color: white; border-radius: 12px;">
                   Create New Profile
                 </button>
@@ -56,7 +56,11 @@
           {{$customer->email}}
         </div>
         <div class="col-sm pt-4 text-center">
-          {{$customer->order_num}}
+          Status: @if ($customer->customer_status == 1)
+          <b class="text-success">Active</b>
+      @else
+      <b class="text-danger">Deactivated</b>
+      @endif
         </div>
       </div>
     </a>

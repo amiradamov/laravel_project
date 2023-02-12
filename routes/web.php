@@ -35,34 +35,6 @@ Route::get("/delete-user", [AAuthController::class, 'delete'])->name('setting-us
 Route::get("/edit-user", [AAuthController::class, 'editUser'])->name('setting-user');
 // Route::get("/edit-cancel", [AuthController::class, 'cancelEdit'])->name('setting-user');
 
-// Route::get("/category", function() {
-//     Category::create(['category_name' => 'fruits', 
-//     'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 
-//     'category_status' => 1]);
-// });
-// Route::get("/items", function() {
-    // Item::create(['item_name' => 'hotdog', 
-    // 'item_price' => 4.99,
-    // 'category_id' =>1, 
-    // 'item_status' => 1]);
-// });
-// Route::get('/orders', function() {
-    // Order::create(['customer_id' => 1,
-    //                 'total_amount' => 14,
-    //                 'order_status' => 1]);
-// });
-
-
-
-
-Route::get("/orderscreate", function() {
-    $customers_ids = array(1, 2, 3, 1, 2, 3, 1, 2, 3);
-    $total_amounts = array(10, 12, 14, 15, 15, 10, 8, 14, 10);
-    for ($i=0; $i < 9; $i++) {
-        Order::create(['customer_id' => $customers_ids[$i],
-        'total_amount' => $total_amounts[$i]]);
-    };
-});
 
 
 Route::get("/customers", [AdminPannel::class, 'customers']);
@@ -80,11 +52,17 @@ Route::get("admin/customers", [Authenticate::class, 'customers'])->middleware('i
 // Customer page
 Route::get("admin/customer/{id}", [Authenticate::class, 'customer_details'])->middleware('isAdminUserLoggedIn');
 
-// Cusomer edit page
-Route::get("admin/customer/{id}/edit", [Authenticate::class, 'admin_edit_customer'])->middleware('isAdminUserLoggedIn');
-// Customer update
-Route::post("/update-admin-customer/{id}", [Authenticate::class, 'admin_update_customer'])->name('update-admin-customer');
+// Admin- Customer create page
+Route::get("admin/{id}/create/customer", [Authenticate::class, 'admin_create_customer_page'])->middleware('isAdminUserLoggedIn');
 
+// Admin- Customer created
+Route::post("/create-admin-customer", [Authenticate::class, 'admin_create_customer'])->name('create-admin-customer');
+
+// Admin- Customer edit page
+Route::get("admin/customer/{id}/edit", [Authenticate::class, 'admin_edit_customer_page'])->middleware('isAdminUserLoggedIn');
+
+// Admin- Customer update
+Route::post("/update-admin-customer/{id}", [Authenticate::class, 'admin_update_customer'])->name('update-admin-customer');
 
 // Log Out Admin Pannel
 Route::get("admin/logout", [Authenticate::class, 'logout']);

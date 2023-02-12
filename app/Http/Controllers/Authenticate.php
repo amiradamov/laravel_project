@@ -88,21 +88,14 @@ class Authenticate extends Controller
 
         $search = $request['search'] ?? "";
         if ($search != "") {
-            $customers = DB::table('orders')
-            ->selectRaw('customers.*, COUNT(orders.customer_id) as order_num')
-            ->where('customer_first_name', 'LIKE', "%$search%")
+            $customers = Customer::where('customer_first_name', 'LIKE', "%$search%")
             ->orWhere('customer_last_name', 'LIKE', "%$search%")
             ->orWhere('email', 'LIKE', "%$search%")
-            ->join('customers', 'orders.customer_id', '=', 'customers.id')
             ->groupBy('id')
             ->paginate(10);
         }else {
-            $customers = DB::table('orders')
-            ->selectRaw('customers.*, COUNT(orders.customer_id) as order_num')
-            ->join('customers', 'orders.customer_id', '=', 'customers.id')
-            ->groupBy('id')
+            $customers = Customer::groupBy('id')
             ->paginate(10);
-            // dd($customers);
         }
         return view("adminpanel/customers")
             ->with('search', $search)
@@ -148,15 +141,86 @@ class Authenticate extends Controller
         ->with('user_type', $user_type)
         ->with('customer', $customer);
     }
-    
   /*
   *
   * ==========================================
-  * Edit Page
+  * Admin- Customer Create Page
   * ==========================================
   *
   */
-    public function admin_edit_customer($id) {
+    public function admin_create_customer_page($id) {
+        $data = User::where('id', Session::get('logginId'))->first();
+        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
+
+        return view("adminpanel/create/admin_create_customer")
+        ->with('data', $data)
+        ->with('user_type', $user_type);
+
+    }
+
+    public function admin_create_customer(Request $request) {
+        $request->validate([
+            'image' => '|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'firstname' => 'required|max:40',
+            'lastname' => 'required|max:40',
+            'username' => 'required|min:5|max:15',
+            'email' => 'required|email|unique:users',
+            'contact_number' => 'required|min:5|max:20',
+            'address' => 'required',
+            'new_password' => 'required|min:5|max:15|',
+            'confirm_password' => 'required|min:5|max:15',
+        ]);
+
+        // create images directory if it does not exist
+        if (!file_exists(public_path('images'))) {
+            mkdir(public_path('images'), 0777, true);
+        }
+    
+        // Check if the image was uploaded
+        if ($request->hasFile('image')) {
+
+            // store image in public directory
+            $image = $request->file('image');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('images'), $name);
+            $path = "/images/$name";
+        }
+
+        if($request->new_password == $request->confirm_password) {
+            $new_customer = new Customer();
+            if ($request->has('image')) {
+                $new_customer->profile_image = $request->image;
+            }
+            if (!empty($path)) {
+                $new_customer->profile_image = $path;
+            }
+            $new_customer->customer_first_name = $request->firstname;
+            $new_customer->customer_last_name = $request->lastname;
+            $new_customer->customer_username = $request->username;
+            $new_customer->email = $request->email;
+            $new_customer->customer_phone_number = $request->contact_number;
+            $new_customer->address = $request->address;
+            $new_customer->address = $request->address;
+            $new_customer->customer_password = Hash::make($request->confirm_password);
+            $res = $new_customer->save();
+            if($res) {
+                return back()->with("success", "You have succesfully registered!");
+            }
+            else {
+                return back()->with("fail", "Something went wrong.");
+            }
+        } else {
+            return back()->with("fail", "Password does not match.");
+        }
+    }
+  /*
+  *
+  * ==========================================
+  * Admin- Customer Edit Page
+  * ==========================================
+  *
+  */
+    public function admin_edit_customer_page($id) {
         $data = User::where('id', Session::get('logginId'))->first();
         $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
 
@@ -182,7 +246,6 @@ class Authenticate extends Controller
                 ],
                 'contact_number' => 'required|min:5|max:20',
                 'address' => 'required',
-                // 'current_password' => 'required',
                 'new_password' => 'nullable|min:5|max:15|confirmed',
                 'confirm_password' => 'nullable|min:5|max:15',
                 'status',
