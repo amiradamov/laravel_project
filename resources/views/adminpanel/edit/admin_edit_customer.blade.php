@@ -33,11 +33,14 @@
 
                     <div class="container text-center">
                         <figure class="figure">
-                            <img src="https://bootstrapious.com/i/snippets/sn-v-nav/avatar.png" alt="..." width="340" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+                          @if ($customer->profile_image != "")
+                            <img src="{{ asset("$customer->profile_image") }}" alt="{{ $customer->customer_first_name }} {{ $customer->customer_last_name }}" width="340" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+                          @else
+                            <img src="{{ asset("/def_images/def_customer_profile.png") }}" alt="{{ $customer->customer_first_name }} {{ $customer->customer_last_name }}" width="340" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+                          @endif
                             <figcaption class="figure-caption text-center text-uppercase" style="font-size: 25px; color: white">
                                 <div>{{$customer->customer_first_name}} {{$customer->customer_last_name}}</div>
                                 <p class="mb-0 text-secondary" style="font-size: 12px"> {{$customer->customer_username}}</p>
-                                <input type="file" class="form-control" required name="image">
                             </figcaption>
                         </figure>
                     </div>
@@ -47,9 +50,13 @@
                   </ul>
                   <div class="tab-content pt-3">
                     <div class="tab-pane active">
-                      <form action="/update-admin-customer/{{$customer->id}}" method="POST" class="form" novalidate="">
-                        {{-- @method('PATCH') --}}
+                      <form action="/update-admin-customer/{{$customer->id}}" method="POST" class="form" enctype="multipart/form-data">
                         @csrf
+
+                        {{-- image update --}}
+                        <label for="formFile" class="form-label">Chose a file</label>
+                        <input type="file" class="form-control" name="image" id="formFile">
+
                         <div class="row">
                           <div class="col">
                             <div class="row">
@@ -112,7 +119,7 @@
                                 <div class="col">
                                     <label>New <span class="d-none d-xl-inline">Password</span></label>
                                     <div class="input-group mb-3">
-                                            <input name="new_password" type="password" value="" class="input form-control" id="new_password" placeholder="Enter new password" required="true" aria-label="password" aria-describedby="basic-addon1" />
+                                            <input name="new_password" type="password" value="" class="input form-control" id="new_password" placeholder="Enter new password" aria-label="password" aria-describedby="basic-addon1" />
                                             <div class="input-group-append">
                                                 <span class="input-group-text" onclick="new_password_show_hide();">
                                                 <i class="fas fa-eye" id="show_eye"></i>
@@ -128,7 +135,7 @@
                                     <label>Confirm <span class="d-none d-xl-inline">Password</span></label>
                                     <div class="input-group mb-3">
                                             <input name="confirm_password" type="password" value="" class="input form-control" id="confirm_password" 
-                                            placeholder="Confirm new password" required="true" aria-label="password" aria-describedby="basic-addon1" />
+                                            placeholder="Confirm new password" aria-label="password" aria-describedby="basic-addon1" />
                                             <div class="input-group-append">
                                                 <span class="input-group-text" onclick="confirm_password_show_hide();">
                                                 <i class="fas fa-eye" id="confirm_show_eye"></i>

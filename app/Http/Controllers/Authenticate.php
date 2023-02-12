@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Models\Ingredient;
 use App\Models\Customer;
@@ -167,49 +169,75 @@ class Authenticate extends Controller
 
     public function admin_update_customer(Request $request, $id) {
         if($request->input('submit') == 'submit'){
-
+    
             $customer = Customer::where("id", $id)->first();
             $request->validate([
-                // 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'image' => '|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'firstname' => 'required|max:40',
                 'lastname' => 'required|max:40',
                 'username' => 'required|min:5|max:15',
-                'email' => 'required|email|unique:customers',
+                'email' => [
+                    'required','nullable','string','email','max:255',
+                    Rule::unique('customers')->ignore($customer->id),
+                ],
                 'contact_number' => 'required|min:5|max:15',
                 'address' => 'required',
                 // 'current_password' => 'required',
-                'new_password' => 'required|min:5|max:15',
-                'confirm_password' => 'required|min:5|max:15',
+                'new_password' => 'nullable|min:5|max:15|confirmed',
+                'confirm_password' => 'nullable|min:5|max:15',
                 'status',
             ]);
-            // if ($request->current_password == $customer->customer_password) {
-                if($request->new_password == $request->confirm_password) {
-                    Customer::where("id", $id)->update([
-                        'customer_first_name' => $request->firstname,
-                        'customer_last_name' => $request->lastname,
-                        'customer_username' => $request->username,
-                        'email' => $request->email,
-                        'customer_phone_number' => $request->contact_number,
-                        'address' => $request->address,
-                        'customer_password' => Hash::make($request->confirm_password),
-                        // customer_status
-                    ]);
-                    if($request->status == 'on') {
-                        Customer::where("id", $id)->update([
-                            'customer_status' => '1'
-                        ]);
-                    } else {
-                        Customer::where("id", $id)->update([
-                            'customer_status' => '0'
-                        ]);
-                    }
-                    return back()->with("success", "Customer succesfuly updated.");
-                } else {
-                    return back()->with("fail", "Password does not match.");
+
+            // create images directory if it does not exist
+            if (!file_exists(public_path('images'))) {
+                    mkdir(public_path('images'), 0777, true);
+            }
+
+            // Check if the image was uploaded
+            if ($request->hasFile('image')) {
+
+                // store image in public directory
+                if(File::exists('/images'.$customer->profile_image)) {
+                    File::delete('/images'.$customer->profile_image);
                 }
-            // } else {
-            //     return back()->with("fail", "Wrong password.");    
-            // }
+                $image = $request->file('image');
+                $name = time().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('images'), $name);
+                $path = "/images/$name";
+                Customer::where("id", $id)->update([
+                    'profile_image' => $path,
+                ]);
+            }
+
+            // Check email
+            if ($request->has('email')) {
+                Customer::where("id", $id)->update([
+                    'email' => $request->email,
+                ]);
+            }
+
+            if($request->new_password == $request->confirm_password) {
+                Customer::where("id", $id)->update([
+                    'customer_first_name' => $request->firstname,
+                    'customer_last_name' => $request->lastname,
+                    'customer_username' => $request->username,
+                    'customer_phone_number' => $request->contact_number,
+                    'address' => $request->address,
+                    'customer_password' => Hash::make($request->confirm_password),
+                ]);
+                if($request->status == 'on') {
+                    Customer::where("id", $id)->update([
+                        'customer_status' => '1'
+                    ]);
+                } else {
+                    Customer::where("id", $id)->update([
+                        'customer_status' => '0'
+                    ]);
+                }
+                return back()->with("success", "Customer succesfuly updated.");
+            } else {
+                return back()->with("fail", "Password does not match.");
+            }
         } else {
             return back()->with("fail", "Something went wrong.");
         }

@@ -4,7 +4,11 @@
 
 <div class="container text-center">
         <figure class="figure">
-            <img src="https://bootstrapious.com/i/snippets/sn-v-nav/avatar.png" alt="..." width="340" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+          @if ($customer->profile_image != "")
+          <img src="{{ asset("$customer->profile_image") }}" alt="{{ $customer->customer_first_name }} {{ $customer->customer_last_name }}" width="340" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+        @else
+          <img src="{{ asset("/def_images/def_customer_profile.png") }}" alt="{{ $customer->customer_first_name }} {{ $customer->customer_last_name }}" width="340" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+        @endif
             <figcaption class="figure-caption text-center text-uppercase" style="font-size: 25px; color: white">{{$customer->customer_first_name}} {{$customer->customer_last_name}}</figcaption>
         </figure>
 </div>
