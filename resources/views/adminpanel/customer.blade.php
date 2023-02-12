@@ -15,6 +15,11 @@
 
 <div class="container text-center"> 
     {{-- <div class="col py-1" > --}}
+      <a href="{{url('admin/customer/'.$customer->id.'/create/order')}}">
+        <button class="btn-lg" style="background-color:#494949; color: #FFC700; border-radius: 12px; border-width: 0">
+          Create Order
+        </button>
+      </a>
       <a href="{{ URL::to('admin/customer/'.$customer->id.'/edit') }}">
         <button class="btn-lg" style="background-color:#494949; color: #FFC700; border-radius: 12px; border-width: 0">
           Edit Profile

@@ -141,6 +141,25 @@ class Authenticate extends Controller
         ->with('user_type', $user_type)
         ->with('customer', $customer);
     }
+
+  /*
+  *
+  * ==========================================
+  * Admin- Customer Order Create Page
+  * ==========================================
+  *
+  */
+    public function admin_create_customer_order_page($id) {
+        $data = User::where('id', Session::get('logginId'))->first();
+        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
+        $customer = Customer::where('id', $id)->first();
+        $categories = Category::all();
+        return view("adminpanel/create/admin_create_customer_order")
+        ->with('data', $data)
+        ->with('customer', $customer)
+        ->with('categories', $categories)
+        ->with('user_type', $user_type);
+    }
   /*
   *
   * ==========================================
