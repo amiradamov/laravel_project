@@ -151,14 +151,42 @@ class Authenticate extends Controller
   */
     public function admin_create_customer_order_page($id) {
         $data = User::where('id', Session::get('logginId'))->first();
+
         $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
+
         $customer = Customer::where('id', $id)->first();
+        
         $categories = Category::all();
+
         return view("adminpanel/create/admin_create_customer_order")
         ->with('data', $data)
         ->with('customer', $customer)
         ->with('categories', $categories)
         ->with('user_type', $user_type);
+    }
+  /*
+  *
+  * ==========================================
+  * Admin- Customer Order Create Page - Selected category  * ==========================================
+  *
+  */
+    public function admin_selected_category(Request $request, $id) {
+        $data = User::where('id', Session::get('logginId'))->first();
+
+        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
+
+        $customer = Customer::where('id', $id)->first();
+
+        $category = Category::where('id', $request->category_name)->first();
+        if ($request->get('category_selected') == "category_selected") {
+            $request->session()->put('categoryName', $category->id);
+            // dd(Session('categoryName'));
+            $itemss = Item::where('category_id', $category->id)->get();
+            // dd($items);
+            return back()
+            ->with(Session('categoryName'))
+            ->with('itemss', $itemss);
+        }
     }
   /*
   *

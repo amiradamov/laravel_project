@@ -159,7 +159,7 @@ class AuthController extends Controller
     public function editUser(Request $request){
         if(Session::has('logginId') && $request->input('edit') == "user-edit"){
             $request->session()->put('EditUser', $request->input('edit'));
-            return back()->with("Edit");
+            return back()->with("EditUser");
         }
         if(Session::has('logginId') && $request->input('cancel') == "user-cancel") {
             Session::pull('EditUser');

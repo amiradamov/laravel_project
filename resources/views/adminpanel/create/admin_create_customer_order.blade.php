@@ -1,29 +1,7 @@
 @extends('layouts.app')
 @section('body')
-<h2 class="display-4 text-white">Create Customer</h2>
+<h2 class="display-4 text-white">Create Customer Order</h2>
 <hr  style=" background-color:#ffffff">
-
-@if (Session("success"))
-<div class="alert alert-success">
-    {{session("success")}}
-</div>   
-@endif
-@if (Session("fail"))
-<div class="alert alert-fail">
-    {{session("fail")}}
-</div>
-@endif
-@if(count($errors))
-<div class="form-group">
-<div class="alert alert-danger">
-    <ul>
-        @foreach($errors->all() as $error)
-            <li>{{$error}}</li>
-        @endforeach
-    </ul>
-</div>
-</div>
-@endif
 
 <div class="container editadmin">
     <div class="row flex-lg-nowrap">
@@ -50,22 +28,39 @@
                               
                             <div class="tab-content pt-3">
                               <div class="tab-pane active">
-                                <form action="{{route('create-admin-customer')}}" method="POST" class="form" enctype="multipart/form-data">
+                                <form action="/create-admin-customer-order/{{$customer->id}}" method="GET" class="form">
                                   @csrf
  
                                   {{-- Select category --}}
                                   <label for="formFile" class="form-label">Select category</label>
                                   <div class="input-group mb-3">
-                                    <select class="custom-select" id="inputGroupSelect04">
+                                    <select class="custom-select" id="inputGroupSelect04" name="category_name">
                                       <option selected>Choose...</option>
                                       @foreach ($categories as $category)
-                                          <option value="{{$category->id}}">{{$category->category_name}}</option>
+                                          <option value="{{$category->id}}" id="category_name">{{$category->category_name}}</option>
                                       @endforeach
                                     </select>
                                     <div class="input-group-append">
-                                      <button class="btn btn-outline-secondary" type="button">Select</button>
+                                      <button class="btn btn-outline-secondary" name="category_selected" value="category_selected">Select</button>
                                     </div>
                                   </div>
+
+                                  @if (Session("categoryName") && !empty($itemss))
+                                  <div class="card-deck">
+                                    @foreach ($itemss as $item)
+                                    <div class="card">
+                                        <img class="card-img-top" src="..." alt="Card image cap">
+                                        <div class="card-body">
+                                          <h5 class="card-title">{{$item->name}}</h5>
+                                          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                        </div>
+                                        <div class="card-footer">
+                                          <small class="text-muted">Last updated 3 mins ago</small>
+                                        </div>
+                                      </div>
+                                    @endforeach
+                                  </div>
+                                  @endif
 
                                   <div class="row">
                                     <br>
