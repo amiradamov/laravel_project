@@ -22,6 +22,7 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
+            $table->text('item_description');
             $table->binary('item_image')->nullable();
             $table->json('item_ingredients')->nullable();
             $table->boolean('item_status')->default(1);

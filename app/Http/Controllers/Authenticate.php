@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
@@ -158,11 +159,32 @@ class Authenticate extends Controller
         
         $categories = Category::all();
 
+        $search = $request['search'] ?? "";
+        if ($search != "") {
+            $items = DB::table('items')
+            ->selectRaw('items.item_name, items.item_price, items.item_image, items.item_status, items.item_description, categories.category_name')
+            ->where('categoty_name', 'LIKE', "%$search%")
+            ->join('categories', 'items.category_id', '=', 'categories.id')
+            ->groupBy('items.item_name', 'items.item_price', 'items.item_image', 'items.item_status', 'items.item_description', 'categories.category_name')
+            ->paginate(10);
+        }else {
+            $items = DB::table('items')
+            ->selectRaw('items.item_name, items.item_price, items.item_image, items.item_status, items.item_description, categories.category_name')
+            ->join('categories', 'items.category_id', '=', 'categories.id')
+            ->groupBy('items.item_name', 'items.item_price', 'items.item_image', 'items.item_status', 'items.item_description', 'categories.category_name')
+            ->paginate(10);
+            // dd($customers);
+        }
+        $new_customer = new Customer();
+
+        dd($new_customer);
         return view("adminpanel/create/admin_create_customer_order")
         ->with('data', $data)
         ->with('customer', $customer)
         ->with('categories', $categories)
-        ->with('user_type', $user_type);
+        ->with('user_type', $user_type)
+        ->with('search', $search)
+        ->with('items', $items);
     }
   /*
   *
@@ -177,16 +199,7 @@ class Authenticate extends Controller
 
         $customer = Customer::where('id', $id)->first();
 
-        $category = Category::where('id', $request->category_name)->first();
-        if ($request->get('category_selected') == "category_selected") {
-            $request->session()->put('categoryName', $category->id);
-            // dd(Session('categoryName'));
-            $itemss = Item::where('category_id', $category->id)->get();
-            // dd($items);
-            return back()
-            ->with(Session('categoryName'))
-            ->with('itemss', $itemss);
-        }
+
     }
   /*
   *
@@ -235,10 +248,12 @@ class Authenticate extends Controller
 
         if($request->new_password == $request->confirm_password) {
             $new_customer = new Customer();
+            
             if ($request->has('image')) {
                 $new_customer->profile_image = $request->image;
             }
             if (!empty($path)) {
+
                 $new_customer->profile_image = $path;
             }
             $new_customer->customer_first_name = $request->firstname;
