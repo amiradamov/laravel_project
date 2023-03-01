@@ -9,13 +9,13 @@
           <form action="">
             <div class="row mb-5 py-1 form-group " style="background-color: #D9D9D9; border-radius: 12px; "> 
               <div class="py-1 w-25 ml-3">
-                <input type="search" name="search" id="" value="{{$search}}" class="form-control w-100  pr-6" placeholder="Search by name or email" style="border-radius: 12px;">
+                <input type="search" name="search_item" id="" value="{{$search_item}}" class="form-control w-100  pr-6" placeholder="Search by category name" style="border-radius: 12px;">
               </div>
               <div class="col py-1" >
                 <button class="btn" style="background-color:#494949; color: white; border-radius: 12px;">
                   Search
                 </button>
-                <a href="{{url('admin/customers')}}">
+                <a href="{{url('admin/customer/'.$customer->id.'/order')}}">
                   <button class="btn" type="button" style="background-color:#494949; color: white; border-radius: 12px;">
                     Reset
                   </button>

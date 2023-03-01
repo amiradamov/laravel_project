@@ -53,7 +53,7 @@ Route::get("admin/customers", [Authenticate::class, 'customers'])->middleware('i
 Route::get("admin/customer/{id}", [Authenticate::class, 'customer_details'])->middleware('isAdminUserLoggedIn');
 
 // Admin- Customer order create page
-Route::get("admin/customer/{id}/create/order", [Authenticate::class, 'admin_create_customer_order_page'])->middleware('isAdminUserLoggedIn');
+Route::get("admin/customer/{id}/order", [Authenticate::class, 'admin_create_customer_order_page'])->middleware('isAdminUserLoggedIn');
 
 // Admin- Customer order create page - Category Selected
 Route::get("/create-admin-customer-order/{id}", [Authenticate::class, 'admin_selected_category'])->name('create-admin-customer-order')->middleware('isAdminUserLoggedIn');

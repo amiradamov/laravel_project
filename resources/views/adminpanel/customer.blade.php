@@ -5,7 +5,7 @@
 <div class="container text-center">
         <figure class="figure">
           @if ($customer->profile_image != "")
-          <img src="{{ asset("$customer->profile_image") }}" alt="{{ $customer->customer_first_name }} {{ $customer->customer_last_name }}" width="340" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+          <img src="{{ asset("images/$customer->profile_image") }}" alt="{{ $customer->customer_first_name }} {{ $customer->customer_last_name }}" width="340" class="mr-3 rounded-circle img-thumbnail shadow-sm">
         @else
           <img src="{{ asset("/def_images/def_customer_profile.png") }}" alt="{{ $customer->customer_first_name }} {{ $customer->customer_last_name }}" width="340" class="mr-3 rounded-circle img-thumbnail shadow-sm">
         @endif
@@ -15,7 +15,7 @@
 
 <div class="container text-center"> 
     {{-- <div class="col py-1" > --}}
-      <a href="{{url('admin/customer/'.$customer->id.'/create/order')}}">
+      <a href="{{url('admin/customer/'.$customer->id.'/order')}}">
         <button class="btn-lg" style="background-color:#494949; color: #FFC700; border-radius: 12px; border-width: 0">
           Create Order
         </button>

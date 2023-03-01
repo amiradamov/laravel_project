@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
@@ -98,6 +99,13 @@ class Authenticate extends Controller
             $customers = Customer::groupBy('id')
             ->paginate(10);
         }
+
+
+        // dd(DB::table('items')
+        // ->selectRaw('items.item_name, items.item_price, items.item_image, items.item_status, items.item_description, categories.category_name')
+        // ->where('categories.category_name', 'LIKE', "%$search%")
+        // ->join('categories', 'items.category_id', '=', 'categories.id')
+        // ->groupBy('items.item_name', 'items.item_price', 'items.item_image', 'items.item_status', 'items.item_description', 'categories.category_name')->get());
         return view("adminpanel/customers")
             ->with('search', $search)
             ->with('customers', $customers)
@@ -150,7 +158,7 @@ class Authenticate extends Controller
   * ==========================================
   *
   */
-    public function admin_create_customer_order_page($id) {
+    public function admin_create_customer_order_page($id, Request $request) {
         $data = User::where('id', Session::get('logginId'))->first();
 
         $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
@@ -159,31 +167,28 @@ class Authenticate extends Controller
         
         $categories = Category::all();
 
-        $search = $request['search'] ?? "";
-        if ($search != "") {
+        $search_item = $request['search_item'] ?? "";
+        if ($search_item != "") {
             $items = DB::table('items')
-            ->selectRaw('items.item_name, items.item_price, items.item_image, items.item_status, items.item_description, categories.category_name')
-            ->where('categoty_name', 'LIKE', "%$search%")
+            ->selectRaw('items.*, categories.*')
+            ->where('item_name', 'LIKE', "%$search_item%")
+            ->orWhere('categories.category_name', 'LIKE', "%$search_item%")
             ->join('categories', 'items.category_id', '=', 'categories.id')
-            ->groupBy('items.item_name', 'items.item_price', 'items.item_image', 'items.item_status', 'items.item_description', 'categories.category_name')
+            ->orderBy('item_name', 'desc')
             ->paginate(10);
         }else {
             $items = DB::table('items')
-            ->selectRaw('items.item_name, items.item_price, items.item_image, items.item_status, items.item_description, categories.category_name')
-            ->join('categories', 'items.category_id', '=', 'categories.id')
-            ->groupBy('items.item_name', 'items.item_price', 'items.item_image', 'items.item_status', 'items.item_description', 'categories.category_name')
+            ->selectRaw('items.*')
+            ->orderBy('item_name', 'desc')
             ->paginate(10);
-            // dd($customers);
         }
-        $new_customer = new Customer();
 
-        dd($new_customer);
         return view("adminpanel/create/admin_create_customer_order")
         ->with('data', $data)
         ->with('customer', $customer)
         ->with('categories', $categories)
         ->with('user_type', $user_type)
-        ->with('search', $search)
+        ->with('search_item', $search_item)
         ->with('items', $items);
     }
   /*
@@ -248,12 +253,10 @@ class Authenticate extends Controller
 
         if($request->new_password == $request->confirm_password) {
             $new_customer = new Customer();
-            
             if ($request->has('image')) {
                 $new_customer->profile_image = $request->image;
             }
             if (!empty($path)) {
-
                 $new_customer->profile_image = $path;
             }
             $new_customer->customer_first_name = $request->firstname;
@@ -322,13 +325,16 @@ class Authenticate extends Controller
             if ($request->hasFile('image')) {
 
                 // store image in public directory
-                if(File::exists('/images'.$customer->profile_image)) {
-                    File::delete('/images'.$customer->profile_image);
+                if($customer->profile_image != null) {
+                    if(Storage::disk('image')->exists($customer->profile_image) != null) {
+                        Storage::disk('image')->delete($customer->profile_image);
+                    }
                 }
+                // dd(Storage::didk('public'));
                 $image = $request->file('image');
                 $name = time().'.'.$image->getClientOriginalExtension();
                 $image->move(public_path('images'), $name);
-                $path = "/images/$name";
+                $path = $name;
                 Customer::where("id", $id)->update([
                     'profile_image' => $path,
                 ]);
