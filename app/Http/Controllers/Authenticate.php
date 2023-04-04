@@ -194,7 +194,8 @@ class Authenticate extends Controller
   /*
   *
   * ==========================================
-  * Admin- Customer Order Create Page - Selected category  * ==========================================
+  * Admin- Customer Order Create Page - Selected category  
+  * ==========================================
   *
   */
     public function admin_selected_category(Request $request, $id) {

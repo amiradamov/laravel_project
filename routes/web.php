@@ -25,14 +25,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get("/login", [AAuthController::class, 'login']);
-Route::get("/registration", [AAuthController::class, 'registration']);
-Route::post("/register-user", [AAuthController::class, 'registerUser'])->name('register-user');
-Route::post("/login-user", [AAuthController::class, 'loginUser'])->name('login-user');
-Route::get("/dashboard", [AAuthController::class, 'dashBoard'])->middleware('isLoggedIn');
-Route::get("/logout", [AAuthController::class, 'logout']);
-Route::get("/delete-user", [AAuthController::class, 'delete'])->name('setting-user');
-Route::get("/edit-user", [AAuthController::class, 'editUser'])->name('setting-user');
+// Route::get("/login", [AAuthController::class, 'login']);
+// Route::get("/registration", [AAuthController::class, 'registration']);
+// Route::post("/register-user", [AAuthController::class, 'registerUser'])->name('register-user');
+// Route::post("/login-user", [AAuthController::class, 'loginUser'])->name('login-user');
+// Route::get("/dashboard", [AAuthController::class, 'dashBoard'])->middleware('isLoggedIn');
+// Route::get("/logout", [AAuthController::class, 'logout']);
+// Route::get("/delete-user", [AAuthController::class, 'delete'])->name('setting-user');
+// Route::get("/edit-user", [AAuthController::class, 'editUser'])->name('setting-user');
 // Route::get("/edit-cancel", [AuthController::class, 'cancelEdit'])->name('setting-user');
 
 

@@ -108,7 +108,6 @@ class AuthController extends Controller
         else {
             return back()->with("fail", "Something went wrong.");
         }
-        
     }
     // Login
     public function login() {
