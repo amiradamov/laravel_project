@@ -24,7 +24,7 @@
               <div class="col py-1 d-flex justify-content-end">
                 <a href="{{url('admin/'.$data->id.'/create/customer')}}">
                   <button class="btn" type="button" style="background-color:#494949; color: white; border-radius: 12px;">
-                    Create New Profile
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart <span class="badge badge-pill badge-danger">1</span>
                   </button>
                 </a>
               </div>
@@ -41,7 +41,7 @@
             <div class="card-body">
               <h5 class="card-title">{{$item->item_name}}</h5>
               <p class="card-text">{{ Str::limit($item->item_description, 200) }}</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+              <p class="btn-holder"><a href="{{ url('add-to-cart-admin/'.$item->id) }}" class="btn btn-warning btn-block text-center" role="button">Add to cart</a></p>
             </div>
           </div>
         </div>

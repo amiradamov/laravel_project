@@ -198,7 +198,7 @@ class Authenticate extends Controller
   * ==========================================
   *
   */
-    public function admin_selected_category(Request $request, $id) {
+    public function admin_add_to_cart(Request $request, $id) {
         $data = User::where('id', Session::get('logginId'))->first();
 
         $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
