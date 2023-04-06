@@ -80,8 +80,6 @@ Route::get("admin/logout", [Authenticate::class, 'logout']);
 
 
 
-
-
 Route::get('/createrecords', function() {
     $usertypes = array('admin', 'moderator', 'editor', 'monitor');
     foreach ($usertypes as $usertype) {

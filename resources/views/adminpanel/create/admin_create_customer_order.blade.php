@@ -6,6 +6,11 @@
 <div class="editadmin"> 
         {{-- Search --}}
         <div class="container">
+          @if (Session("success"))
+          <div class="alert alert-success">
+            {{session("success")}}
+          </div>
+        @endif
           <form action="">
             <div class="row mb-5 py-1 form-group " style="background-color: #D9D9D9; border-radius: 12px; "> 
               <div class="py-1 w-25 ml-3">
@@ -24,7 +29,7 @@
               <div class="col py-1 d-flex justify-content-end">
                 <a href="{{url('admin/'.$data->id.'/create/customer')}}">
                   <button class="btn" type="button" style="background-color:#494949; color: white; border-radius: 12px;">
-                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart <span class="badge badge-pill badge-danger">1</span>
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart <span class="badge badge-pill badge-danger">{{ count((array)session('cart', '1')) }}</span>
                   </button>
                 </a>
               </div>

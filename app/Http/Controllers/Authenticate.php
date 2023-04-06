@@ -182,7 +182,6 @@ class Authenticate extends Controller
             ->orderBy('item_name', 'desc')
             ->paginate(10);
         }
-
         return view("adminpanel/create/admin_create_customer_order")
         ->with('data', $data)
         ->with('customer', $customer)
@@ -194,18 +193,60 @@ class Authenticate extends Controller
   /*
   *
   * ==========================================
-  * Admin- Customer Order Create Page - Selected category  
+  * Admin- Customer Order Create Page - Add to cart  
   * ==========================================
   *
   */
     public function admin_add_to_cart(Request $request, $id) {
         $data = User::where('id', Session::get('logginId'))->first();
-
         $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
-
         $customer = Customer::where('id', $id)->first();
 
+        $item = Item::find($id);
 
+        if (!$item) {
+            return redirect()->back()->with('success', 'failed');
+        }
+
+        $cart = session()->get('cart');
+        // if cart is empty then this is first product
+        if(!$cart) {
+            $cart = [
+                $id => [
+                    'name' => $item->item_name,
+                    'price' => $item->item_price,
+                    'category' => Category::where('id', $item->category_id)->value('category_name'),
+                    'description' => $item->item_description,
+                    'image' => $item->item_image,
+                    'ingredients' => $item->item_ingredients,
+                    'quantity' => 1, 
+                ]
+            ];
+            session()->put('cart', $cart);
+
+            return redirect()->back()->with('success', 'Product added to card successfuly!');
+        }
+        // if cart not empty then check if this product exist then increment quantity
+        if(isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+
+            session()->put('cart', $cart);
+
+            return redirect()->back()->with('success', 'Product added to card successfuly!!');
+        }
+
+         // if item not exist in cart then add to cart with quantity = 1
+        $cart[$id] = [
+                'name' => $item->item_name,
+                'price' => $item->item_price,
+                'category' => Category::where('id', $item->category_id)->value('category_name'),
+                'description' => $item->item_description,
+                'image' => $item->item_image,
+                'ingredients' => $item->item_ingredients,
+                'quantity' => 1
+        ];
+        session()->put('cart', $cart);
+        return redirect()->back()->with('success', 'Product added to cart successfully!!!');
     }
   /*
   *
