@@ -207,7 +207,7 @@ class Authenticate extends Controller
         if (!$item) {
             return redirect()->back()->with('success', 'failed');
         }
-
+        if ($customer->id)
         $cart = session()->get('cart');
         // if cart is empty then this is first product
         if(!$cart) {
