@@ -74,8 +74,8 @@
                         @foreach((array) session('cart') as $id => $details)
                             <?php $total += $details['price'] * $details['quantity'] ?>
                         @endforeach
-                        <div class="col-lg-3 col-sm-6 col-6" style="vertical-align: bottom;">
-                            Product
+                        {{-- <div class="col-lg-3 col-sm-6 col-6" style="border: 1px solid red">
+                            <div class="row px-3">Product</div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-6">
                           Price
@@ -85,8 +85,46 @@
                         </div>
                         <div class="col-lg-1 col-sm-6 col-6">
                           Subtotal
-                        </div>
-                          
+                        </div> --}}
+                          <table class="table">
+                            <tr style="text-align: center">
+                              <th scope="col">Product</th>
+                              <th scope="col">Price</th>
+                              <th scope="col">Quantity</th>
+                              <th scope="col">Subtotal</th>
+                            </tr>
+                            <tr>
+                              <td class="row" >
+                                {{-- <div class="row" style="border: 1px solid rgb(63, 12, 130)"> --}}
+                                <div class="col-4">
+                                  <img src="https://d1avenlh0i1xmr.cloudfront.net/8a716a93-7540-4ff2-91d8-a656847a4de9/24.jpg" alt="" width="80px" style="margin-right: 0; padding: 0">
+                                </div>
+                                <div class="col-6" style="border: 1px solid red">
+                                  pizza-mizza
+                                </div>
+                              {{-- </div> --}}
+                            </td>
+                            <td>12₼</td>
+                            <td>
+                            <div class="col">
+                              <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button type="button" class="quantity-left-minus btn btn-warning btn-number"  data-type="minus" data-field="" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                      -
+                                    </button>
+                                </span>
+                                <input type="text" id="quantity" name="quantity" class="form-control input-number" value="{{10}}" min="1" max="100" size="1px">
+                                <span class="input-group-btn">
+                                    <button type="button" class="quantity-right-plus btn btn-warning btn-numbe" data-type="plus" data-field="" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                                        +
+                                    </button>
+                                </span>
+                              </div>
+                            </div>
+                            </td>
+                            <td>300₼</td>
+                            </tr>
+                          </table>
                       @else
 
                           <p></p>
@@ -122,8 +160,8 @@
             <div class="card-body">
               <h5 class="card-title">{{$item->item_name}}</h5>
               <p class="card-text">{{ Str::limit($item->item_description, 200) }}</p>
-              {{-- <p class="btn-holder"><a href="{{ url('add-to-cart-admin/'.$item->id) }}" class="btn btn-warning btn-block text-center" role="button">Add to cart</a></p> --}}
-              <button id="addToCartBtn" class="btn btn-warning btn-block text-center" role="button">Add to cart</button>
+              <p class="btn-holder"><a href="{{ url('add-to-cart-admin/'.$item->id) }}" class="btn btn-warning btn-block text-center" role="button">Add to cart</a></p>
+              {{-- <button id="addToCartBtn" class="btn btn-warning btn-block text-center" role="button">Add to cart</button> --}}
 
             </div>
           </div>
@@ -135,22 +173,44 @@
 </div>
 
 <script>
-  $(document).ready(function() {
-      $('#addToCartBtn').on('click', function() {
-          $.ajax({
-              url: '{{ url('add-to-cart-admin/'.$item->id) }}',
-              type: 'GET',
-              success: function(response) {
-                $cart[$id]['quantity']++;
-                  // Do something with the response, such as update the cart count
-                  // Example: $('#cartCount').text(response.cartCount);
-              },
-              error: function(xhr) {
-                  // Handle any errors here
-              }
-          });
-      });
-  });
+  $(".dropdown-menu").click(function(event){
+   event.stopPropagation();
+});
+
+$(document).ready(function(){
+
+var quantitiy=0;
+   $('.quantity-right-plus').click(function(e){
+        
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#quantity').val());
+        
+        // If is not undefined
+            
+            $('#quantity').val(quantity + 1);
+
+          
+            // Increment
+        
+    });
+
+     $('.quantity-left-minus').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#quantity').val());
+        
+        // If is not undefined
+      
+            // Increment
+            if(quantity>0){
+            $('#quantity').val(quantity - 1);
+            }
+    });
+    
+});
 </script>
 
 
