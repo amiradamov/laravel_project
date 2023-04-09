@@ -47,7 +47,7 @@
                       @endif
                   </button>
                   
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="margin-right: 200px; width: 600px">
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="margin-right: 200px; width: 800px">
                     <div class="col" style="margin-left: 20px">
                       <div class="row">
                         <p class="h4">Cart</p>
@@ -66,15 +66,14 @@
                       @endif
                         </p>
                       </div>
-                      <div class="row"></div>
                     </div>
-                    <div class="row" style="margin-left: 1px">
+                    <div class="row container" style="">
                       @if (session('cart'))
                         <?php $total = 0 ?>
                         @foreach((array) session('cart') as $id => $details)
                             <?php $total += $details['price'] * $details['quantity'] ?>
                         @endforeach
-                        {{-- <div class="col-lg-3 col-sm-6 col-6" style="border: 1px solid red">
+                        <!-- {{-- <div class="col-lg-3 col-sm-6 col-6" style="border: 1px solid red">
                             <div class="row px-3">Product</div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-6">
@@ -84,46 +83,63 @@
                           Quantity
                         </div>
                         <div class="col-lg-1 col-sm-6 col-6">
-                          Subtotal
-                        </div> --}}
+                        Price
+                        </div> --}} -->
                           <table class="table">
-                            <tr style="text-align: center">
-                              <th scope="col">Product</th>
-                              <th scope="col">Price</th>
-                              <th scope="col">Quantity</th>
-                              <th scope="col">Subtotal</th>
-                            </tr>
-                            <tr>
-                              <td class="row" >
-                                {{-- <div class="row" style="border: 1px solid rgb(63, 12, 130)"> --}}
-                                <div class="col-4">
-                                  <img src="https://d1avenlh0i1xmr.cloudfront.net/8a716a93-7540-4ff2-91d8-a656847a4de9/24.jpg" alt="" width="80px" style="margin-right: 0; padding: 0">
-                                </div>
-                                <div class="col-6" style="border: 1px solid red">
-                                  pizza-mizza
-                                </div>
-                              {{-- </div> --}}
-                            </td>
-                            <td>12₼</td>
-                            <td>
-                            <div class="col">
-                              <div class="input-group">
-                                <span class="input-group-btn">
-                                    <button type="button" class="quantity-left-minus btn btn-warning btn-number"  data-type="minus" data-field="" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                                      -
-                                    </button>
-                                </span>
-                                <input type="text" id="quantity" name="quantity" class="form-control input-number" value="{{10}}" min="1" max="100" size="1px">
-                                <span class="input-group-btn">
-                                    <button type="button" class="quantity-right-plus btn btn-warning btn-numbe" data-type="plus" data-field="" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
-                                        +
-                                    </button>
-                                </span>
-                              </div>
-                            </div>
-                            </td>
-                            <td>300₼</td>
-                            </tr>
+                            <thead>
+                              <tr>
+                                <th scope="col" class="col-5">Product</th>
+                                <th scope="col" class="col-2" >Quantity</th>
+                                <th scope="col" class="col-1">Price</th>
+                                <th scope="col" class="col-1"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              @for ($i = 0; $i < 10; $i++)
+                              <tr>
+                                <td>
+                                  <div class="row">
+                                    <div class="col-3">
+                                      <img src="https://d1avenlh0i1xmr.cloudfront.net/8a716a93-7540-4ff2-91d8-a656847a4de9/24.jpg" alt="" width="70px">
+                                    </div>
+                                    <div class="col">
+                                      <p>pizza-mizza</p>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="col mt-1" style="margin-right: 0; padding-left: 0;">
+                                    <div class="input-group">
+                                      <span class="input-group-btn">
+                                          <button type="button" class="quantity-left-minus btn btn-warning btn-number"  data-type="minus" data-field="" style="border-top-right-radius: 0; border-bottom-right-radius: 0; width: 30px;" >
+                                            -
+                                          </button>
+                                      </span>
+                                      <input type="text" id="quantity" name="quantity" class="form-control input-number" value="{{10}}" min="1" max="100" size="5px">
+                                      <span class="input-group-btn">
+                                          <button type="button" class="quantity-right-plus btn btn-warning btn-numbe" data-type="plus" data-field="" style="border-top-left-radius: 0; border-bottom-left-radius: 0; width: 30px;">
+                                              +
+                                          </button>
+                                      </span>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="mt-1">
+                                    300₼
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                      <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                                    </svg>
+                                  </div>
+                                </td>
+                              </tr>
+                              @endfor
+                            </tbody>
                           </table>
                       @else
 
