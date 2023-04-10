@@ -26,7 +26,7 @@
                   </button>
                 </a>
               </div>
-              <div class="col py-1 d-flex justify-content-end dropdown" style="position: relative">
+              <div class="col d-flex justify-content-end dropdown" style="">
                   <button class="btn btn-warning dropdown-toggle" type="button" style="border-radius: 12px;" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart
                       @if (session('cart'))
@@ -47,7 +47,7 @@
                       @endif
                   </button>
                   
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="margin-right: 200px; width: 800px">
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="margin-right: 200px; width: 800px; max-height: 520px; overflow:scroll; overflow-x: hidden">
                     <div class="col" style="margin-left: 20px">
                       <div class="row">
                         <p class="h4">Cart</p>
@@ -67,24 +67,12 @@
                         </p>
                       </div>
                     </div>
-                    <div class="row container" style="">
+                    <div class="row container mx-0">
                       @if (session('cart'))
                         <?php $total = 0 ?>
                         @foreach((array) session('cart') as $id => $details)
                             <?php $total += $details['price'] * $details['quantity'] ?>
                         @endforeach
-                        <!-- {{-- <div class="col-lg-3 col-sm-6 col-6" style="border: 1px solid red">
-                            <div class="row px-3">Product</div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6 col-6">
-                          Price
-                        </div>
-                        <div class="col-lg-3 col-sm-6 col-6">
-                          Quantity
-                        </div>
-                        <div class="col-lg-1 col-sm-6 col-6">
-                        Price
-                        </div> --}} -->
                           <table class="table">
                             <thead>
                               <tr>
@@ -95,7 +83,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              @for ($i = 0; $i < 10; $i++)
+                              @foreach(session('cart') as $id => $details)
                               <tr>
                                 <td>
                                   <div class="row">
@@ -103,7 +91,7 @@
                                       <img src="https://d1avenlh0i1xmr.cloudfront.net/8a716a93-7540-4ff2-91d8-a656847a4de9/24.jpg" alt="" width="70px">
                                     </div>
                                     <div class="col">
-                                      <p>pizza-mizza</p>
+                                      <p>{{$details['name']}}</p>
                                     </div>
                                   </div>
                                 </td>
@@ -115,7 +103,7 @@
                                             -
                                           </button>
                                       </span>
-                                      <input type="text" id="quantity" name="quantity" class="form-control input-number" value="{{10}}" min="1" max="100" size="5px">
+                                      <input type="text" id="quantity" name="quantity" class="form-control input-number" value="{{$details['quantity']}}" min="1" max="100" size="5px">
                                       <span class="input-group-btn">
                                           <button type="button" class="quantity-right-plus btn btn-warning btn-numbe" data-type="plus" data-field="" style="border-top-left-radius: 0; border-bottom-left-radius: 0; width: 30px;">
                                               +
@@ -126,7 +114,7 @@
                                 </td>
                                 <td>
                                   <div class="mt-1">
-                                    300₼
+                                    {{$details['price']}}
                                   </div>
                                 </td>
                                 <td>
@@ -138,7 +126,7 @@
                                   </div>
                                 </td>
                               </tr>
-                              @endfor
+                              @endforeach
                             </tbody>
                           </table>
                       @else
@@ -176,7 +164,8 @@
             <div class="card-body">
               <h5 class="card-title">{{$item->item_name}}</h5>
               <p class="card-text">{{ Str::limit($item->item_description, 200) }}</p>
-              <p class="btn-holder"><a href="{{ url('add-to-cart-admin/'.$item->id) }}" class="btn btn-warning btn-block text-center" role="button">Add to cart</a></p>
+              {{-- <p class="btn-holder"><a href="{{ url('add-to-cart-admin/'.$item->id) }}" class="btn btn-warning btn-block text-center" role="button">Add to cart</a></p> --}}
+              <button class="btn btn-warning btn-block text-center" id="cart-update-button" data-product-id="{{ $item->id }}"> Add to cart</button>
               {{-- <button id="addToCartBtn" class="btn btn-warning btn-block text-center" role="button">Add to cart</button> --}}
 
             </div>
