@@ -27,25 +27,26 @@
                 </a>
               </div>
               <div class="col d-flex justify-content-end dropdown" style="">
-                  <button class="btn btn-warning dropdown-toggle" type="button" style="border-radius: 12px;" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart
-                      @if (session('cart'))
-                        @php
+                <button class="btn btn-warning dropdown-toggle" type="button" style="border-radius: 12px;" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart
+                  @if (session('cart'))
+                      @php
                           $cartCount = 0;
                           $cart = session('cart');
                           foreach ($cart as $item) {
                               $cartCount += $item['quantity'];
                           }
-                        @endphp
-                        <span class="badge badge-pill badge-danger">
+                      @endphp
+                      <span id="cart-count" class="badge badge-pill badge-danger">
                           {{ $cartCount }}  
-                        </span>
-                      @else
-                        <span class="badge badge-pill badge-danger">
+                      </span>
+                  @else
+                      <span id="cart-count" class="badge badge-pill badge-danger">
                           0  
-                        </span>
-                      @endif
-                  </button>
+                      </span>
+                  @endif
+              </button>
+              
                   
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="margin-right: 200px; width: 800px; max-height: 520px; overflow:scroll; overflow-x: hidden">
                     <div class="col" style="margin-left: 20px">
@@ -56,7 +57,7 @@
                       <div class="row">
                         <p>Number of items in cart:
                           @if (session('cart'))
-                        <span class="badge badge-pill badge-danger">
+                        <span class="badge badge-pill badge-danger" id="inner-cart-count">
                           {{ $cartCount }}  
                         </span>
                       @else
@@ -164,58 +165,73 @@
             <div class="card-body">
               <h5 class="card-title">{{$item->item_name}}</h5>
               <p class="card-text">{{ Str::limit($item->item_description, 200) }}</p>
-              {{-- <p class="btn-holder"><a href="{{ url('add-to-cart-admin/'.$item->id) }}" class="btn btn-warning btn-block text-center" role="button">Add to cart</a></p> --}}
-              <button class="btn btn-warning btn-block text-center" id="cart-update-button" data-product-id="{{ $item->id }}"> Add to cart</button>
-              {{-- <button id="addToCartBtn" class="btn btn-warning btn-block text-center" role="button">Add to cart</button> --}}
-
+              <p class="btn-holder">
+                <button class="btn btn-warning btn-block text-center add-to-cart-btn" data-id="{{$item->id}}">Add to cart</button>
+              </p>
             </div>
           </div>
         </div>
         @empty
             
         @endforelse
+
       </div> 
 </div>
 
 <script>
   $(".dropdown-menu").click(function(event){
-   event.stopPropagation();
-});
-
-$(document).ready(function(){
-
-var quantitiy=0;
-   $('.quantity-right-plus').click(function(e){
-        
-        // Stop acting like a button
-        e.preventDefault();
-        // Get the field name
-        var quantity = parseInt($('#quantity').val());
-        
-        // If is not undefined
-            
-            $('#quantity').val(quantity + 1);
-
-          
-            // Increment
-        
+      event.stopPropagation();
     });
 
-     $('.quantity-left-minus').click(function(e){
-        // Stop acting like a button
-        e.preventDefault();
-        // Get the field name
-        var quantity = parseInt($('#quantity').val());
-        
-        // If is not undefined
+  $(document).ready(function(){
+
+    var quantitiy=0;
+    $('.quantity-right-plus').click(function(e){  
+      // Stop acting like a button
+      e.preventDefault();
+      // Get the field name
+      var quantity = parseInt($('#quantity').val());
+      // If is not undefined
+      $('#quantity').val(quantity + 1);
+      // Increment
+    });
+
+    $('.quantity-left-minus').click(function(e){
+      // Stop acting like a button
+      e.preventDefault();
+      // Get the field name
+      var quantity = parseInt($('#quantity').val());
       
-            // Increment
-            if(quantity>0){
-            $('#quantity').val(quantity - 1);
-            }
-    });
+      // If is not undefined
     
-});
+      // Increment
+      if(quantity>0){
+        $('#quantity').val(quantity - 1);
+      }
+    });
+      
+  });
+
+    $(document).on('click', '.add-to-cart-btn', function(){
+        var itemId = $(this).data('id');
+        $.ajax({
+            url: "{{ url('add-to-cart') }}",
+            type: "POST",
+            data: {
+                id: itemId,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(data){
+                // Show success message
+                // alert(data.cartCount);
+                document.getElementById('cart-count').innerHTML = data.cartCount;
+                document.getElementById('inner-cart-count').innerHTML = data.cartCount;
+                
+            }
+        });
+    });
+
+  
 </script>
 
 

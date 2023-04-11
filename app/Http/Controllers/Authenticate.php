@@ -197,57 +197,52 @@ class Authenticate extends Controller
   * ==========================================
   *
   */
-    public function admin_add_to_cart(Request $request, $id) {
-        $data = User::where('id', Session::get('logginId'))->first();
-        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
-        $customer = Customer::where('id', $id)->first();
+  public function add_to_cart(Request $request)
+{
+    $itemId = $request->input('id');
 
-        $item = Item::find($id);
+    $item = Item::find($itemId);
 
-        if (!$item) {
-            return redirect()->back()->with('success', 'failed');
-        }
-        // if ($customer->id)
-        $cart = session()->get('cart');
-        // if cart is empty then this is first product
-        if(!$cart) {
-            $cart = [
-                $id => [
-                    'name' => $item->item_name,
-                    'price' => $item->item_price,
-                    'category' => Category::where('id', $item->category_id)->value('category_name'),
-                    'description' => $item->item_description,
-                    'image' => $item->item_image,
-                    'ingredients' => $item->item_ingredients,
-                    'quantity' => 1, 
-                ]
-            ];
-            session()->put('cart', $cart);
+    if (!$item) {
+        return response()->json(['error' => 'Item not found.']);
+    }
 
-            return redirect()->back()->with('success', 'Product added to card successfuly!');
-        }
-        // if cart not empty then check if this product exist then increment quantity
-        if(isset($cart[$id])) {
-            $cart[$id]['quantity']++;
+    $cart = session()->get('cart');
 
-            session()->put('cart', $cart);
-
-            return redirect()->back()->with('success', 'Product added to card successfuly!!');
-        }
-
-         // if item not exist in cart then add to cart with quantity = 1
-        $cart[$id] = [
+    if (!$cart) {
+        $cart = [
+            $itemId => [
                 'name' => $item->item_name,
                 'price' => $item->item_price,
                 'category' => Category::where('id', $item->category_id)->value('category_name'),
                 'description' => $item->item_description,
                 'image' => $item->item_image,
                 'ingredients' => $item->item_ingredients,
-                'quantity' => 1
+                'quantity' => 1,
+            ]
         ];
-        session()->put('cart', $cart);
-        return redirect()->back()->with('success', 'Product added to cart successfully!!!');
+    } else {
+        if (isset($cart[$itemId])) {
+            $cart[$itemId]['quantity']++;
+        } else {
+            $cart[$itemId] = [
+                'name' => $item->item_name,
+                'price' => $item->item_price,
+                'category' => Category::where('id', $item->category_id)->value('category_name'),
+                'description' => $item->item_description,
+                'image' => $item->item_image,
+                'ingredients' => $item->item_ingredients,
+                'quantity' => 1,
+            ];
+        }
     }
+
+    session()->put('cart', $cart);
+    $cartCount = array_sum(array_column($cart, 'quantity'));
+    return response()->json(['success' => 'Item added to cart successfully.', 'cartCount' => $cartCount]);
+}
+
+  
   /*
   *
   * ==========================================
