@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 @section('body')
 <h2 class="display-4 text-white">Create Order for {{$customer->customer_first_name}} {{$customer->customer_last_name}}</h2>
@@ -56,15 +57,9 @@
                       </div>
                       <div class="row">
                         <p>Number of items in cart:
-                          @if (session('cart'))
-                        <span class="badge badge-pill badge-danger" id="inner-cart-count">
-                          {{ $cartCount }}  
+                          <span class="badge badge-pill badge-danger" id="inner-cart-count">
+                            {{ $cartCount ?? 0 }}
                         </span>
-                      @else
-                        <span class="badge badge-pill badge-danger">
-                          0  
-                        </span>
-                      @endif
                         </p>
                       </div>
                     </div>
@@ -83,51 +78,8 @@
                                 <th scope="col" class="col-1"></th>
                               </tr>
                             </thead>
-                            <tbody>
-                              @foreach(session('cart') as $id => $details)
-                              <tr>
-                                <td>
-                                  <div class="row">
-                                    <div class="col-3">
-                                      <img src="https://d1avenlh0i1xmr.cloudfront.net/8a716a93-7540-4ff2-91d8-a656847a4de9/24.jpg" alt="" width="70px">
-                                    </div>
-                                    <div class="col">
-                                      <p>{{$details['name']}}</p>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="col mt-1" style="margin-right: 0; padding-left: 0;">
-                                    <div class="input-group">
-                                      <span class="input-group-btn">
-                                          <button type="button" class="quantity-left-minus btn btn-warning btn-number"  data-type="minus" data-field="" style="border-top-right-radius: 0; border-bottom-right-radius: 0; width: 30px;" >
-                                            -
-                                          </button>
-                                      </span>
-                                      <input type="text" id="quantity" name="quantity" class="form-control input-number" value="{{$details['quantity']}}" min="1" max="100" size="5px">
-                                      <span class="input-group-btn">
-                                          <button type="button" class="quantity-right-plus btn btn-warning btn-numbe" data-type="plus" data-field="" style="border-top-left-radius: 0; border-bottom-left-radius: 0; width: 30px;">
-                                              +
-                                          </button>
-                                      </span>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="mt-1">
-                                    {{$details['price']}}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="mt-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
-                                      <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
-                                    </svg>
-                                  </div>
-                                </td>
-                              </tr>
-                              @endforeach
+                            <tbody cart-items>
+                                  <!-- Cart items will be added here -->
                             </tbody>
                           </table>
                       @else
@@ -175,6 +127,18 @@
             
         @endforelse
 
+        <div class="container"></div>
+        <button onclick="addDiv()">Add Div</button>
+        <script>
+          function addDiv() {
+            let container = document.querySelector('.container');
+            let div = document.createElement('div');
+            div.classList.add('box');
+            div.innerHTML = container.childElementCount + 1;
+            container.appendChild(div);
+          }
+        </script>
+        <div id="cart-items"></div>
       </div> 
 </div>
 
@@ -182,9 +146,7 @@
   $(".dropdown-menu").click(function(event){
       event.stopPropagation();
     });
-
   $(document).ready(function(){
-
     var quantitiy=0;
     $('.quantity-right-plus').click(function(e){  
       // Stop acting like a button
@@ -195,7 +157,6 @@
       $('#quantity').val(quantity + 1);
       // Increment
     });
-
     $('.quantity-left-minus').click(function(e){
       // Stop acting like a button
       e.preventDefault();
@@ -211,8 +172,7 @@
     });
       
   });
-
-    $(document).on('click', '.add-to-cart-btn', function(){
+  $(document).on('click', '.add-to-cart-btn', function(){
         var itemId = $(this).data('id');
         $.ajax({
             url: "{{ url('add-to-cart') }}",
@@ -226,11 +186,54 @@
                 // alert(data.cartCount);
                 document.getElementById('cart-count').innerHTML = data.cartCount;
                 document.getElementById('inner-cart-count').innerHTML = data.cartCount;
-                
+                var cartItem = '<tr id="item-container">'+
+                                '<td>' +
+                                  '<div class="row">' +
+                                    '<div class="col-3">' +
+                                      '<img src="https://d1avenlh0i1xmr.cloudfront.net/8a716a93-7540-4ff2-91d8-a656847a4de9/24.jpg" alt="" width="70px">' +
+                                    '</div>' +
+                                    '<div class="col">' +
+                                      '<p>' +
+                                        data.name
+                                        '</p>' +
+                                    '</div>' +
+                                  '</div>' +
+                                '</td>' +
+                                '<td>' +
+                                  '<div class="col mt-1" style="margin-right: 0; padding-left: 0;">' +
+                                    '<div class="input-group">' +
+                                      '<span class="input-group-btn">' +
+                                          '<button type="button" class="quantity-left-minus btn btn-warning btn-number"  data-type="minus" data-field="" style="border-top-right-radius: 0; border-bottom-right-radius: 0; width: 30px;" >' +
+                                            -
+                                          '</button>' +
+                                      '</span>' +
+                                      '<input type="text" id="quantity" name="quantity" class="form-control input-number" value= data.quantity min="1" max="100" size="5px">' +
+                                      '<span class="input-group-btn">' +
+                                          '<button type="button" class="quantity-right-plus btn btn-warning btn-numbe" data-type="plus" data-field="" style="border-top-left-radius: 0; border-bottom-left-radius: 0; width: 30px;">' +
+                                              +
+                                          '</button>' +
+                                      '</span>' +
+                                    '</div>' +
+                                  '</div>' +
+                                '</td>' +
+                                '<td>' +
+                                  '<div class="mt-1">' +
+                                    data.price
+                                  '</div>' +
+                                '</td>' +
+                                '<td>' +
+                                  '<div class="mt-1">' +
+                                    '<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">' +
+                                      '<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>' +
+                                      '<path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>' +
+                                    '</svg>' +
+                                  '</div>' +
+                                '</td>' +
+                              '</tr>';
+                              $('#cart-items').append(cartItem);
             }
         });
     });
-
   
 </script>
 

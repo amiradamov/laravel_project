@@ -198,50 +198,50 @@ class Authenticate extends Controller
   *
   */
   public function add_to_cart(Request $request)
-{
-    $itemId = $request->input('id');
+  {
+      $itemId = $request->input('id');
+  
+      $item = Item::find($itemId);
+  
+      if (!$item) {
+        abort(404);
+      }
+  
+      $cart = session()->get('cart');
 
-    $item = Item::find($itemId);
-
-    if (!$item) {
-        return response()->json(['error' => 'Item not found.']);
-    }
-
-    $cart = session()->get('cart');
-
-    if (!$cart) {
-        $cart = [
-            $itemId => [
-                'name' => $item->item_name,
-                'price' => $item->item_price,
-                'category' => Category::where('id', $item->category_id)->value('category_name'),
-                'description' => $item->item_description,
-                'image' => $item->item_image,
-                'ingredients' => $item->item_ingredients,
-                'quantity' => 1,
-            ]
-        ];
-    } else {
-        if (isset($cart[$itemId])) {
-            $cart[$itemId]['quantity']++;
-        } else {
-            $cart[$itemId] = [
-                'name' => $item->item_name,
-                'price' => $item->item_price,
-                'category' => Category::where('id', $item->category_id)->value('category_name'),
-                'description' => $item->item_description,
-                'image' => $item->item_image,
-                'ingredients' => $item->item_ingredients,
-                'quantity' => 1,
-            ];
-        }
-    }
-
-    session()->put('cart', $cart);
-    $cartCount = array_sum(array_column($cart, 'quantity'));
-    return response()->json(['success' => 'Item added to cart successfully.', 'cartCount' => $cartCount]);
-}
-
+      // if cart is empty then this the first product
+      if (!$cart) {
+          $cart = [
+              $itemId => [
+                  'name' => $item->item_name,
+                  'price' => $item->item_price,
+                  'category' => Category::where('id', $item->category_id)->value('category_name'),
+                  'description' => $item->item_description,
+                  'image' => $item->item_image,
+                  'ingredients' => $item->item_ingredients,
+                  'quantity' => 1,
+              ]
+          ];
+      } else {
+          if (isset($cart[$itemId])) {
+              $cart[$itemId]['quantity']++;
+          } else {
+              $cart[$itemId] = [
+                  'name' => $item->item_name,
+                  'price' => $item->item_price,
+                  'category' => Category::where('id', $item->category_id)->value('category_name'),
+                  'description' => $item->item_description,
+                  'image' => $item->item_image,
+                  'ingredients' => $item->item_ingredients,
+                  'quantity' => 1,
+              ];
+          }
+      }
+  
+      session()->put('cart', $cart);
+      $cartCount = array_sum(array_column($cart, 'quantity'));
+      return response()->json(['success' => 'Item added to cart successfully.', 'cartCount' => $cartCount, 'name' => $item->item_name]);
+  }
   
   /*
   *
@@ -421,7 +421,8 @@ class Authenticate extends Controller
     public function logout() {
         if(Session::has('logginId')) {
             Session::pull('logginId');
-            return redirect('admin/login');
+            Session::pull('cart');
+            return redirect()->route('admin-login');
         }
     }
 }

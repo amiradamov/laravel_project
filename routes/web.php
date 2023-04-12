@@ -42,7 +42,7 @@ Route::get("/customers", [AdminPannel::class, 'customers']);
 Route::get("/order/{id}", [AdminPannel::class, 'order_details']);
 
 // Admin Pannel
-Route::get("admin/login", [Authenticate::class, 'login']);
+Route::get("admin/login", [Authenticate::class, 'login'])->name('admin-login');
 
 Route::post("/login-admin", [Authenticate::class, 'loginAdmin'])->name('login-admin');
 Route::get("admin/adminpage", [Authenticate::class, 'user_page'])->middleware('isAdminUserLoggedIn');
@@ -71,7 +71,7 @@ Route::get("admin/customer/{id}/edit", [Authenticate::class, 'admin_edit_custome
 Route::post("/update-admin-customer/{id}", [Authenticate::class, 'admin_update_customer'])->name('update-admin-customer');
 
 // Log Out Admin Pannel
-Route::get("admin/logout", [Authenticate::class, 'logout']);
+Route::get("admin/logout", [Authenticate::class, 'logout'])->name('logout');
 
 
 

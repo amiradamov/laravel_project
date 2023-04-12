@@ -96,7 +96,7 @@
     <li class="nav-item mt-auto p-2">
       <hr  style="height:0.5px; width:100%; border-width:0; color:red; background-color:#505050">
       <div class="d-flex justify-content-center">
-        <a href="logout"><button type="button" class="btn menu_logout">Log Out</button></a>
+        <a href="{{url('admin/logout')}}"><button type="button" class="btn menu_logout">Log Out</button></a>
       </div>
     </li>
     
