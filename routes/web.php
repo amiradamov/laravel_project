@@ -49,6 +49,17 @@ Route::get("admin/adminpage", [Authenticate::class, 'user_page'])->middleware('i
 
 Route::get("admin/customers", [Authenticate::class, 'customers'])->middleware('isAdminUserLoggedIn');
 
+Route::get("admin/categories", [Authenticate::class, 'categories'])->middleware('isAdminUserLoggedIn');
+
+// Category page
+Route::get("admin/category/{id}", [Authenticate::class, 'category_details'])->middleware('isAdminUserLoggedIn');
+
+// Admin- Category edit page
+Route::get("admin/category/{id}/edit", [Authenticate::class, 'admin_edit_category_page'])->middleware('isAdminUserLoggedIn');
+
+// Admin- Category update
+Route::post("/update-admin-category/{id}", [Authenticate::class, 'admin_update_category'])->name('update-admin-customer');
+
 // Customer page
 Route::get("admin/customer/{id}", [Authenticate::class, 'customer_details'])->middleware('isAdminUserLoggedIn');
 

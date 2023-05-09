@@ -100,20 +100,153 @@ class Authenticate extends Controller
             ->paginate(10);
         }
 
-
-        // dd(DB::table('items')
-        // ->selectRaw('items.item_name, items.item_price, items.item_image, items.item_status, items.item_description, categories.category_name')
-        // ->where('categories.category_name', 'LIKE', "%$search%")
-        // ->join('categories', 'items.category_id', '=', 'categories.id')
-        // ->groupBy('items.item_name', 'items.item_price', 'items.item_image', 'items.item_status', 'items.item_description', 'categories.category_name')->get());
         return view("adminpanel/customers")
             ->with('search', $search)
             ->with('customers', $customers)
             ->with('data', $data)
             ->with('user_type', $user_type);
     }
-  
+
     /*
+    *
+    * ==========================================
+    * CATEGORIES PAGE
+    * ==========================================
+    *
+    */
+    public function categories(Request $request) {
+        $data = User::where('id', Session::get('logginId'))->first();
+        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
+
+        $search = $request['search'] ?? "";
+        if ($search != "") {
+            $categories = Category::where('category_name', 'LIKE', "%$search%")
+            ->groupBy('id')
+            ->paginate(10);
+        }else {
+            $categories = Category::groupBy('id')
+            ->paginate(10);
+        }
+
+        return view("adminpanel/categories")
+            ->with('search', $search)
+            ->with('categories', $categories)
+            ->with('data', $data)
+            ->with('user_type', $user_type);
+    }
+
+    /*
+    *
+    * ==========================================
+    * CATEGORY_DETAIL PAGE
+    * ==========================================
+    *
+    */
+    public function category_details($id, Request $request) {
+        $data = User::where('id', Session::get('logginId'))->first();
+        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
+        $category = Category::find($id);
+        
+        $search = $request['search'] ?? "";
+        if ($search != "") {
+            $items = DB::table('items')
+            ->selectRaw('items.*')
+            ->where('item_name', 'LIKE', "%$search%")
+            ->where('items.category_id', '=', $category->id)
+            ->join('categories', 'items.category_id', '=', 'categories.id')
+            ->orderBy('item_name', 'desc')
+            ->paginate(10);
+        }else {
+            $items = DB::table('items')
+            ->selectRaw('items.*')
+            ->where('category_id', '=', $category->id)
+            ->orderBy('item_name', 'desc')
+            ->paginate(10);
+        }
+// 
+
+        
+        return view("adminpanel/category")
+        ->with('search', $search)
+        ->with('data', $data)
+        ->with('user_type', $user_type)
+        ->with('items', $items)
+        ->with('category', $category);
+    }
+
+
+    /*
+    *
+    * ==========================================
+    * Admin- Category Edit Page
+    * ==========================================
+    *
+    */
+    public function admin_edit_category_page($id) {
+        $data = User::where('id', Session::get('logginId'))->first();
+        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
+
+        $category = Category::where('id', $id)->first();
+        return view("adminpanel/edit/admin_edit_category")
+        ->with('data', $data)
+        ->with('category', $category)
+        ->with('user_type', $user_type);
+    }
+
+    public function admin_update_category(Request $request, $id) {
+        if($request->input('submit') == 'submit'){
+
+            $category = Category::where("id", $id)->first();
+            $request->validate([
+                'image' => '|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'catname' => 'required|max:40',
+                'description' => 'required',
+                'status',
+            ]);
+
+            // create images directory if it does not exist
+            if (!file_exists(public_path('images'))) {
+                    mkdir(public_path('images'), 0777, true);
+            }
+
+            // Check if the image was uploaded
+            if ($request->hasFile('image')) {
+
+                // store image in public directory
+                if($customer->profile_image != null) {
+                    if(Storage::disk('image')->exists($customer->profile_image) != null) {
+                        Storage::disk('image')->delete($customer->profile_image);
+                    }
+                }
+                // dd(Storage::didk('public'));
+                $image = $request->file('image');
+                $name = time().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('images'), $name);
+                $path = $name;
+                Customer::where("id", $id)->update([
+                    'profile_image' => $path,
+                ]);
+            }
+
+            Category::where("id", $id)->update([
+                'category_name' => $request->catname,
+                'description' => $request->description,
+            ]);
+            if($request->status == 'on') {
+                Category::where("id", $id)->update([
+                    'category_status' => '1'
+                ]);
+            } else {
+                Category::where("id", $id)->update([
+                    'category_status' => '0'
+                ]);
+            }
+            return back()->with("success", "Customer succesfuly updated.");
+        } else {
+            return back()->with("fail", "Something went wrong.");
+        }
+    }
+ /*
   *
   * ==========================================
   * CUSTOMER_DETAIL PAGE

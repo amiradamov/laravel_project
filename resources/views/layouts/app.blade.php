@@ -50,7 +50,7 @@
     </li>
     <hr  style="height:0.5px; width:100%; border-width:0; color:red; background-color:#505050">
     <li class="nav-item menu">
-      <a href="#" class="nav-link">
+      <a href="{{ url('admin/categories') }}" class="nav-link">
                 <i class="fa fa-cubes mr-3 text-primary fa-fw"></i>
                 Categories
             </a>
