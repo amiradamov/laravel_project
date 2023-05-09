@@ -163,9 +163,7 @@ class Authenticate extends Controller
             ->orderBy('item_name', 'desc')
             ->paginate(10);
         }
-// 
 
-        
         return view("adminpanel/category")
         ->with('search', $search)
         ->with('data', $data)
@@ -174,7 +172,61 @@ class Authenticate extends Controller
         ->with('category', $category);
     }
 
+    /*
+    *
+    * ==========================================
+    * Admin- Category Create Page
+    * ==========================================
+    *
+    */
+    public function admin_create_category_page($id) {
+        $data = User::where('id', Session::get('logginId'))->first();
+        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
 
+        return view("adminpanel/create/admin_create_category")
+        ->with('data', $data)
+        ->with('user_type', $user_type);
+    }
+
+    public function admin_create_category(Request $request) {
+        $request->validate([
+            'image' => '|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'catname' => 'required|max:40',
+            'description' => 'required',
+        ]);
+
+        // create images directory if it does not exist
+        // if (!file_exists(public_path('images'))) {
+        //     mkdir(public_path('images'), 0777, true);
+        // }
+
+        // Check if the image was uploaded
+        // if ($request->hasFile('image')) {
+
+        //     // store image in public directory
+        //     $image = $request->file('image');
+        //     $name = time().'.'.$image->getClientOriginalExtension();
+        //     $image->move(public_path('images'), $name);
+        //     $path = "/images/$name";
+        // }
+
+        $new_category = new Category();
+        // if ($request->has('image')) {
+        //     $new_customer->profile_image = $request->image;
+        // }
+        // if (!empty($path)) {
+        //     $new_customer->profile_image = $path;
+        // }
+        $new_category->category_name = $request->catname;
+        $new_category->description = $request->description;
+        $res = $new_category->save();
+        if($res) {
+            return back()->with("success", "You have succesfully registered!");
+        }
+        else {
+            return back()->with("fail", "Something went wrong.");
+        }
+    }
     /*
     *
     * ==========================================
