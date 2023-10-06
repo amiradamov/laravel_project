@@ -80,12 +80,9 @@
                           <div class="col-12 col-sm-6 mb-3">
                             <div class="mb-2 text-secondary"><b>Change Status</b></div>
                             <hr  style=" background-color:#ffffff">
+                            
+                            <input type="checkbox" data-toggle="toggle" data-on="Activated" data-off="Deactivated" data-onstyle="success" data-offstyle="danger" name="status" value="1" {{ $category->category_status == 1 ? 'checked' : '' }}>
 
-                            @if ($category->category_status == 1)
-                              <input type="checkbox"  checked data-toggle="toggle" data-on="Activated" data-off="Diactivated" data-onstyle="success" data-offstyle="danger" name="status" value="on">
-                            @else
-                              <input type="checkbox"  data-toggle="toggle" data-on="Activated" data-off="Diactivated" data-onstyle="success" data-offstyle="danger" name="status" value="passive">
-                            @endif 
                           </div>
                         </div>
                         <div class="row">

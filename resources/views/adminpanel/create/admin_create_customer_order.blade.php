@@ -49,7 +49,7 @@
               </button>
               
                   
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="margin-right: 200px; width: 800px; max-height: 520px; overflow:scroll; overflow-x: hidden">
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="margin-right: 200px; width: 800px; max-height: 520px; overflow:scroll; overflow-x: hidden">
                     <div class="col" style="margin-left: 20px">
                       <div class="row">
                         <p class="h4">Cart</p>
@@ -88,7 +88,7 @@
 
                       @endif
                   </div>
-                  <div class="row mt-3" style="margin-left: 1px">
+                  <div class="row mt-3 " style="margin-left: 1px">
                     <div class="col-lg-7 col-sm-5 col-6">
                       @if (session('cart'))
 

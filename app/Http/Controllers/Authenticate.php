@@ -33,8 +33,8 @@ class Authenticate extends Controller
         $user = User::where("user_username", $request->username)->first();
         if($user) {
             if($user->user_status = 1){
-                if($request->password = $user->user_password){
-                    $request->session()->put('logginId', $user->id);
+                if($request->password == $user->user_password){
+                    $request->session()->put('administration_log', $user->id);
                     return redirect('admin/adminpage');
                 }else {
                     return back()->with('fail', "Password is incorrect");
@@ -50,7 +50,7 @@ class Authenticate extends Controller
     }
 
   /*
-  *
+  *Ж
   * ==========================================
   * USER PAGE
   * ==========================================
@@ -58,11 +58,11 @@ class Authenticate extends Controller
   */
     public function user_page(Request $request) {
         $data = array();
-        if (Session::has('logginId')) {
-            $data = User::where('id', Session::get('logginId'))->first();
-            $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('user_type_id'))->value('user_type_name');
+        if (Session::has('administration_log')) {
+            $data = User::where('id', Session::get('administration_log'))->first();
+            $user_type = UserType::where('id', User::where('id', Session::get('administration_log'))->value('user_type_id'))->value('user_type_name');
 
-        // Access for different type of users ///////////////////////
+        // Access for different type ~of users ///////////////////////
             if($user_type == 'admin'){
                 $request->session()->put('user_admin', $user_type);
             }
@@ -72,6 +72,8 @@ class Authenticate extends Controller
             if($user_type == 'editor'){
                 $request->session()->put('user_editor', $user_type);
             }
+
+        // dd($request->session()->has('user_moderator'));
         return view('adminpanel/user_page')
             ->with('data', $data)
             ->with('user_type', $user_type);
@@ -85,8 +87,8 @@ class Authenticate extends Controller
   *
   */
     public function customers(Request $request) {
-        $data = User::where('id', Session::get('logginId'))->first();
-        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
+        $data = User::where('id', Session::get('administration_log'))->first();
+        $user_type = UserType::where('id', User::where('id', Session::get('administration_log'))->value('id'))->value('user_type_name');
 
         $search = $request['search'] ?? "";
         if ($search != "") {
@@ -107,197 +109,7 @@ class Authenticate extends Controller
             ->with('user_type', $user_type);
     }
 
-    /*
-    *
-    * ==========================================
-    * CATEGORIES PAGE
-    * ==========================================
-    *
-    */
-    public function categories(Request $request) {
-        $data = User::where('id', Session::get('logginId'))->first();
-        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
-
-        $search = $request['search'] ?? "";
-        if ($search != "") {
-            $categories = Category::where('category_name', 'LIKE', "%$search%")
-            ->groupBy('id')
-            ->paginate(10);
-        }else {
-            $categories = Category::groupBy('id')
-            ->paginate(10);
-        }
-
-        return view("adminpanel/categories")
-            ->with('search', $search)
-            ->with('categories', $categories)
-            ->with('data', $data)
-            ->with('user_type', $user_type);
-    }
-
-    /*
-    *
-    * ==========================================
-    * CATEGORY_DETAIL PAGE
-    * ==========================================
-    *
-    */
-    public function category_details($id, Request $request) {
-        $data = User::where('id', Session::get('logginId'))->first();
-        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
-        $category = Category::find($id);
-        
-        $search = $request['search'] ?? "";
-        if ($search != "") {
-            $items = DB::table('items')
-            ->selectRaw('items.*')
-            ->where('item_name', 'LIKE', "%$search%")
-            ->where('items.category_id', '=', $category->id)
-            ->join('categories', 'items.category_id', '=', 'categories.id')
-            ->orderBy('item_name', 'desc')
-            ->paginate(10);
-        }else {
-            $items = DB::table('items')
-            ->selectRaw('items.*')
-            ->where('category_id', '=', $category->id)
-            ->orderBy('item_name', 'desc')
-            ->paginate(10);
-        }
-
-        return view("adminpanel/category")
-        ->with('search', $search)
-        ->with('data', $data)
-        ->with('user_type', $user_type)
-        ->with('items', $items)
-        ->with('category', $category);
-    }
-
-    /*
-    *
-    * ==========================================
-    * Admin- Category Create Page
-    * ==========================================
-    *
-    */
-    public function admin_create_category_page($id) {
-        $data = User::where('id', Session::get('logginId'))->first();
-        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
-
-        return view("adminpanel/create/admin_create_category")
-        ->with('data', $data)
-        ->with('user_type', $user_type);
-    }
-
-    public function admin_create_category(Request $request) {
-        $request->validate([
-            'image' => '|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'catname' => 'required|max:40',
-            'description' => 'required',
-        ]);
-
-        // create images directory if it does not exist
-        // if (!file_exists(public_path('images'))) {
-        //     mkdir(public_path('images'), 0777, true);
-        // }
-
-        // Check if the image was uploaded
-        // if ($request->hasFile('image')) {
-
-        //     // store image in public directory
-        //     $image = $request->file('image');
-        //     $name = time().'.'.$image->getClientOriginalExtension();
-        //     $image->move(public_path('images'), $name);
-        //     $path = "/images/$name";
-        // }
-
-        $new_category = new Category();
-        // if ($request->has('image')) {
-        //     $new_customer->profile_image = $request->image;
-        // }
-        // if (!empty($path)) {
-        //     $new_customer->profile_image = $path;
-        // }
-        $new_category->category_name = $request->catname;
-        $new_category->description = $request->description;
-        $res = $new_category->save();
-        if($res) {
-            return back()->with("success", "You have succesfully registered!");
-        }
-        else {
-            return back()->with("fail", "Something went wrong.");
-        }
-    }
-    /*
-    *
-    * ==========================================
-    * Admin- Category Edit Page
-    * ==========================================
-    *
-    */
-    public function admin_edit_category_page($id) {
-        $data = User::where('id', Session::get('logginId'))->first();
-        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
-
-        $category = Category::where('id', $id)->first();
-        return view("adminpanel/edit/admin_edit_category")
-        ->with('data', $data)
-        ->with('category', $category)
-        ->with('user_type', $user_type);
-    }
-
-    public function admin_update_category(Request $request, $id) {
-        if($request->input('submit') == 'submit'){
-
-            $category = Category::where("id", $id)->first();
-            $request->validate([
-                'image' => '|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'catname' => 'required|max:40',
-                'description' => 'required',
-                'status',
-            ]);
-
-            // create images directory if it does not exist
-            if (!file_exists(public_path('images'))) {
-                    mkdir(public_path('images'), 0777, true);
-            }
-
-            // Check if the image was uploaded
-            if ($request->hasFile('image')) {
-
-                // store image in public directory
-                if($customer->profile_image != null) {
-                    if(Storage::disk('image')->exists($customer->profile_image) != null) {
-                        Storage::disk('image')->delete($customer->profile_image);
-                    }
-                }
-                // dd(Storage::didk('public'));
-                $image = $request->file('image');
-                $name = time().'.'.$image->getClientOriginalExtension();
-                $image->move(public_path('images'), $name);
-                $path = $name;
-                Customer::where("id", $id)->update([
-                    'profile_image' => $path,
-                ]);
-            }
-
-            Category::where("id", $id)->update([
-                'category_name' => $request->catname,
-                'description' => $request->description,
-            ]);
-            if($request->status == 'on') {
-                Category::where("id", $id)->update([
-                    'category_status' => '1'
-                ]);
-            } else {
-                Category::where("id", $id)->update([
-                    'category_status' => '0'
-                ]);
-            }
-            return back()->with("success", "Customer succesfuly updated.");
-        } else {
-            return back()->with("fail", "Something went wrong.");
-        }
-    }
+    
  /*
   *
   * ==========================================
@@ -306,34 +118,82 @@ class Authenticate extends Controller
   *
   */
     public function customer_details($id, Request $request) {
-        $data = User::where('id', Session::get('logginId'))->first();
-        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
+        $data = User::where('id', Session::get('administration_log'))->first();
+        $user_type = UserType::where('id', User::where('id', Session::get('administration_log'))->value('id'))->value('user_type_name');
         $customer = Customer::find($id);
-        
-        $search = $request['search'] ?? "";
-        if ($search != "") {
-            $customers = DB::table('orders')
-            ->selectRaw('customers.*, COUNT(orders.customer_id) as order_num')
-            ->where('customer_first_name', 'LIKE', "%$search%")
-            ->orWhere('customer_last_name', 'LIKE', "%$search%")
-            ->orWhere('email', 'LIKE', "%$search%")
-            ->join('customers', 'orders.customer_id', '=', 'customers.id')
-            ->groupBy('id')
-            ->paginate(10);
-        }else {
-            $customers = DB::table('orders')
-            ->selectRaw('customers.*, COUNT(orders.customer_id) as order_num')
-            ->join('customers', 'orders.customer_id', '=', 'customers.id')
-            ->groupBy('id')
-            ->paginate(10);
-            // dd($customers);
-        }
+        $statusTypes = ['Pending', 'Failed', 'Success'];
 
+        $statusFilter = $request->input('statusType'); // Get the selected status filter
+        $dateFilter = $request->input('date'); // Get the selected date filter
+
+        $search = $request['search'] ?? "";
+        $selectStatus = $request['statusType'] ?? "";
+        if ($search != "") {
+            $ordersQuery = DB::table('orders')
+                ->selectRaw('orders.id as order_id, orders.order_status, customers.id as customer_id, customers.*, COUNT(orders.customer_id) as order_num, users.name as user_name')
+                ->where('customer_id', 'LIKE', "%$customer->id%")
+                ->where('orders.id', 'LIKE', "%$search%")
+                ->join('customers', 'orders.customer_id', '=', 'customers.id')
+                ->join('users', 'orders.proccessed_by', '=', 'users.id')
+                ->groupBy('order_id', 'customer_id');
+    
+            // Apply the status filter if selected
+            if ($statusFilter) {
+                $ordersQuery->where('orders.order_status', '=', $this->getStatusValue($statusFilter));
+            }
+    
+            // Apply the date filter if selected
+            if ($dateFilter) {
+                $ordersQuery->whereDate('orders.created_at', '=', $dateFilter);
+            }
+    
+            $orders = $ordersQuery->paginate(10);
+        } else {
+            $ordersQuery = DB::table('orders')
+                ->selectRaw('orders.id as order_id, orders.order_status, customers.id as customer_id, customers.*, COUNT(orders.customer_id) as order_num, users.name as user_name')
+                ->where('customer_id', 'LIKE', "%$customer->id%")
+                ->join('customers', 'orders.customer_id', '=', 'customers.id')
+                ->join('users', 'orders.proccessed_by', '=', 'users.id')
+                ->groupBy('order_id', 'customer_id');
+    
+            // Apply the status filter if selected
+            if ($statusFilter) {
+                $ordersQuery->where('orders.order_status', '=', $this->getStatusValue($statusFilter));
+            }
+    
+            // Apply the date filter if selected
+            if ($dateFilter) {
+                $ordersQuery->whereDate('orders.created_at', '=', $dateFilter);
+            }
+    
+            $orders = $ordersQuery->paginate(10);
+        }
+    
+        // ... (existing code)
+    
         return view("adminpanel/customer")
-        ->with('search', $search)
-        ->with('data', $data)
-        ->with('user_type', $user_type)
-        ->with('customer', $customer);
+            ->with('statusTypes', $statusTypes)
+            ->with('search', $search)
+            ->with('dateFilter', $dateFilter)
+            ->with('selectStatus', $selectStatus)
+            ->with('data', $data)
+            ->with('orders', $orders)
+            ->with('user_type', $user_type)
+            ->with('customer', $customer);
+    }
+    
+    // Helper function to get the order status value based on the selected status type
+    private function getStatusValue($statusType) {
+        switch ($statusType) {
+            case 'Pending':
+                return 1;
+            case 'Failed':
+                return 0;
+            case 'Success':
+                return 2;
+            default:
+                return null; // You can handle other cases as needed
+        }
     }
 
   /*
@@ -344,9 +204,9 @@ class Authenticate extends Controller
   *
   */
     public function admin_create_customer_order_page($id, Request $request) {
-        $data = User::where('id', Session::get('logginId'))->first();
+        $data = User::where('id', Session::get('administration_log'))->first();
 
-        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
+        $user_type = UserType::where('id', User::where('id', Session::get('administration_log'))->value('id'))->value('user_type_name');
 
         $customer = Customer::where('id', $id)->first();
         
@@ -375,6 +235,7 @@ class Authenticate extends Controller
         ->with('search_item', $search_item)
         ->with('items', $items);
     }
+    
   /*
   *
   * ==========================================
@@ -436,8 +297,8 @@ class Authenticate extends Controller
   *
   */
     public function admin_create_customer_page($id) {
-        $data = User::where('id', Session::get('logginId'))->first();
-        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
+        $data = User::where('id', Session::get('administration_log'))->first();
+        $user_type = UserType::where('id', User::where('id', Session::get('administration_log'))->value('id'))->value('user_type_name');
 
         return view("adminpanel/create/admin_create_customer")
         ->with('data', $data)
@@ -470,7 +331,7 @@ class Authenticate extends Controller
             $image = $request->file('image');
             $name = time().'.'.$image->getClientOriginalExtension();
             $image->move(public_path('images'), $name);
-            $path = "/images/$name";
+            $path = $name;
         }
 
         if($request->new_password == $request->confirm_password) {
@@ -508,8 +369,8 @@ class Authenticate extends Controller
   *
   */
     public function admin_edit_customer_page($id) {
-        $data = User::where('id', Session::get('logginId'))->first();
-        $user_type = UserType::where('id', User::where('id', Session::get('logginId'))->value('id'))->value('user_type_name');
+        $data = User::where('id', Session::get('administration_log'))->first();
+        $user_type = UserType::where('id', User::where('id', Session::get('administration_log'))->value('id'))->value('user_type_name');
 
         $customer = Customer::where('id', $id)->first();
         return view("adminpanel/edit/admin_edit_customer")
@@ -578,15 +439,17 @@ class Authenticate extends Controller
                     'address' => $request->address,
                     'customer_password' => Hash::make($request->confirm_password),
                 ]);
-                if($request->status == 'on') {
+                if ($request->status == 1) {
                     Customer::where("id", $id)->update([
-                        'customer_status' => '1'
+                        'customer_status' => 1
                     ]);
-                } else {
+                    // dd($request->status);
+                } elseif ($request->status == 0) {
                     Customer::where("id", $id)->update([
-                        'customer_status' => '0'
+                        'customer_status' => 0
                     ]);
-                }
+                    // dd($request->status);
+                }                 
                 return back()->with("success", "Customer succesfuly updated.");
             } else {
                 return back()->with("fail", "Password does not match.");
@@ -604,9 +467,8 @@ class Authenticate extends Controller
   *
   */
     public function logout() {
-        if(Session::has('logginId')) {
-            Session::pull('logginId');
-            Session::pull('cart');
+        if(Session::has('administration_log')) {
+            Session::flush();
             return redirect()->route('admin-login');
         }
     }

@@ -17,7 +17,7 @@ class AuthCheck
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Session::has('logginId')){
+        if (!Session::has('administration_log')){
             return redirect('login')->with('fail', 'You have to login first.');
         }
         return $next($request);

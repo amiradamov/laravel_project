@@ -1,64 +1,17 @@
 @extends('layouts.app')
+@section('menu')
+
+@endsection
+
 @section('body')
-
-
-<div class="container text-center">
-        <figure class="figure">
-          @if ($customer->profile_image != "")
-          <img src="{{ asset("images/$customer->profile_image") }}" alt="{{ $customer->customer_first_name }} {{ $customer->customer_last_name }}" width="340" class="mr-3 rounded-circle img-thumbnail shadow-sm">
-        @else
-          <img src="{{ asset("/def_images/def_customer_profile.png") }}" alt="{{ $customer->customer_first_name }} {{ $customer->customer_last_name }}" width="340" class="mr-3 rounded-circle img-thumbnail shadow-sm">
-        @endif
-            <figcaption class="figure-caption text-center text-uppercase" style="font-size: 25px; color: white">{{$customer->customer_first_name}} {{$customer->customer_last_name}}</figcaption>
-        </figure>
-</div>
-
-<div class="container text-center"> 
-    {{-- <div class="col py-1" > --}}
-      <a href="{{url('admin/customer/'.$customer->id.'/order')}}">
-        <button class="btn-lg" style="background-color:#494949; color: #FFC700; border-radius: 12px; border-width: 0">
-          Create Order
-        </button>
-      </a>
-      <a href="{{ URL::to('admin/customer/'.$customer->id.'/edit') }}">
-        <button class="btn-lg" style="background-color:#494949; color: #FFC700; border-radius: 12px; border-width: 0">
-          Edit Profile
-        </button>
-      </a>
-      <a href="{{url('admin/customers')}}">
-        <button class="btn-lg" type="button" style="background-color:red; color: white; border-radius: 12px; border-width: 0">
-          Delete Account
-        </button>
-      </a>
-    {{-- </div> --}}
-  </div>
-<hr  style=" background-color:#ffffff">
-
-
-
-
-<div class="row">
-    <div class="col">
-        Email: {{$customer->email}}
-    </div>
-    <div class="col">
-        Phone: {{$customer->customer_phone_number}}
-    </div>
-    <div class="col text-wrap">
-        Address: {{$customer->address}}
-    </div>
-    <div class="col active">
-        Status: @if ($customer->customer_status == 1)
-            <b class="text-success">Active</b>
-        @else
-        <b class="text-danger">Deactivated</b>
-        
-        @endif
-    </div>
-</div>
-
-<br>
-
+    <style>
+      .customer {
+        background-color: #272727;
+      }
+    </style>
+      <h2 class="display-4 text-white">Orders</h2>
+      <hr  style=" background-color:#ffffff">
+      
       {{-- Search --}}
       <form action="">
         <div class="row py-1 form-group mb-5" style="background-color: #D9D9D9; border-radius: 12px; "> 
@@ -77,7 +30,7 @@
             <button class="btn" style="background-color:#494949; color: white; border-radius: 12px;">
               Search
             </button>
-            <a href="{{url('admin/customer/'.$customer->id)}}">
+            <a href="{{url('admin/orders/')}}">
               <button class="btn" type="button" style="background-color:#494949; color: white; border-radius: 12px;">
                 Reset
               </button>
@@ -90,11 +43,11 @@
         {{-- </div> --}}
         </div>
         </div>
-    </form>
-
+      </form>
+      
           {{-- Order_details --}}
           @foreach ($orders as $order)
-            <a href="{{ URL::to('admin/customer/'.$customer->id) }}" class="" style="font-size: 15px; color: white">
+            <a href="{{ URL::to('admin/customers/') }}" class="" style="font-size: 15px; color: white">
               <div class="row py-1 px-2 blonde mb-2" style="background-color: #565656; border-radius: 12px;">
                 <div class="col-xm">
                   <img src="https://bootstrapious.com/i/snippets/sn-v-nav/avatar.png" alt="..." width="70" class="mr-3 rounded-circle img-thumbnail shadow-sm" style="background-color: #FFC700">
@@ -114,4 +67,5 @@
               </div>
             </a>
           @endforeach
+
 @endsection

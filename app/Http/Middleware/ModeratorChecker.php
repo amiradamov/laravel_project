@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Session;
 
-class AuthenticationCheck
+class ModeratorChecker
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class AuthenticationCheck
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Session::has('administration_log')){
+        if(Session::has('user_moderator')){
             abort(403);
         }
         return $next($request);

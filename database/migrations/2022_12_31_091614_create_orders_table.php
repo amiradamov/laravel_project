@@ -28,7 +28,7 @@ return new class extends Migration
                 ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
-            $table->boolean('order_status')->default(0);
+            $table->boolean('order_status')->default(1);
             $table->timestamps();
         });
     }

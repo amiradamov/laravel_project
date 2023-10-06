@@ -21,8 +21,8 @@ class AdminPannel extends Controller
     }
     public function user_page() {
         $data = array();
-        if (Session::has('logginId')) {
-            $data = User::where('id', Session::get('logginId'))->first();
+        if (Session::has('administration_log')) {
+            $data = User::where('id', Session::get('administration_log'))->first();
         }
         return view('adminpanel/user_page', copact('data'));
     }

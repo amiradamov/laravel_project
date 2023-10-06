@@ -15,7 +15,7 @@
       {{-- Search --}}
       <form action="">
           <div class="row mb-5 py-1 form-group " style="background-color: #D9D9D9; border-radius: 12px; "> 
-            <div class="py-1 w-25 ml-3">
+            <div class="py-1 col-4">
               <input type="search" name="search" id="" value="{{$search}}" class="form-control w-100  pr-6" placeholder="Search by name or email" style="border-radius: 12px;">
             </div>
             <div class="col py-1" >

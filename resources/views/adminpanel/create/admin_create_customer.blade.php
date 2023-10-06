@@ -28,7 +28,7 @@
 <div class="container editadmin">
     <div class="row flex-lg-nowrap">
         <div class="col">
-            <div class="row">
+            {{-- <div class="row"> --}}
                 <div class="col mb-3">
                     <div class="card" style="border: none; border-radius: 12px">
                         <div class="card-body"  style="background-color: #363636; border-radius: 12px">

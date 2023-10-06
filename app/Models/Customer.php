@@ -40,7 +40,7 @@ class Customer extends Model
     public function user()
     {
         return $this->belongsToMany(User::class, 'orders', 'customer_id', 'proccessed_by')
-        ->withPivot('id', 'total_amount', "order_status")
+        ->withPivot('id', 'total_amount', 'order_status', 'created_at')
         ->withTimestamps();
     }
 

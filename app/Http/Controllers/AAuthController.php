@@ -122,7 +122,7 @@ class AuthController extends Controller
         if($user) {
             if(Hash::check($request->password, $user->password)){
                 // To store data in the session, you will typically use the request instance's put method:
-                $request->session()->put('logginId', $user->id);
+                $request->session()->put('administration_log', $user->id);
                 return redirect('dashboard');
             }else {
                 return back()->with("fail", "Password is incorrect");
@@ -133,22 +133,22 @@ class AuthController extends Controller
     }
     public function dashBoard() {
         $data = array();
-        if (Session::has('logginId')){
-            $data = User::where('id', Session::get('logginId'))->first();
+        if (Session::has('administration_log')){
+            $data = User::where('id', Session::get('administration_log'))->first();
         }
         return view('dashboard', compact('data'));
     }
     public function logout(){
-        if (Session::has('logginId')){
+        if (Session::has('administration_log')){
             // The pull method will retrieve and delete an item from the session in a single statement:
-            Session::pull('logginId');
+            Session::pull('administration_log');
             return redirect('login');
         }
     }
     public function delete(Request $request){
-        if (Session::has('logginId') && $request->input('delete') == "True"){
-            User::where('id', Session('logginId'))->delete();
-            Session::pull('logginId');
+        if (Session::has('administration_log') && $request->input('delete') == "True"){
+            User::where('id', Session('administration_log'))->delete();
+            Session::pull('administration_log');
             return redirect('login')->with("success", "User successfully deleted");
         }else {
             return back()->with("fail", "Try again");
@@ -156,21 +156,21 @@ class AuthController extends Controller
     }
 
     public function editUser(Request $request){
-        if(Session::has('logginId') && $request->input('edit') == "user-edit"){
+        if(Session::has('administration_log') && $request->input('edit') == "user-edit"){
             $request->session()->put('EditUser', $request->input('edit'));
             return back()->with("EditUser");
         }
-        if(Session::has('logginId') && $request->input('cancel') == "user-cancel") {
+        if(Session::has('administration_log') && $request->input('cancel') == "user-cancel") {
             Session::pull('EditUser');
             return back();
         }
-        if(Session::has('logginId') && $request->input('submit') == 'user-submit') {
+        if(Session::has('administration_log') && $request->input('submit') == 'user-submit') {
             $request->validate([
                 'name' => 'required',
                 'email' => 'required|email|unique:users',
                 'password' => 'required|min:5|max:15'
             ]);
-            User::where('id', Session('logginId'))->update([
+            User::where('id', Session('administration_log'))->update([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),

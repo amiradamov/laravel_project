@@ -150,11 +150,9 @@
                             <div class="mb-2 text-secondary"><b>Change Status</b></div>
                             <hr  style=" background-color:#ffffff">
 
-                            @if ($customer->customer_status == 1)
-                              <input type="checkbox"  checked data-toggle="toggle" data-on="Activated" data-off="Diactivated" data-onstyle="success" data-offstyle="danger" name="status" value="on">
-                            @else
-                              <input type="checkbox"  data-toggle="toggle" data-on="Activated" data-off="Diactivated" data-onstyle="success" data-offstyle="danger" name="status" value="passive">
-                            @endif 
+                            <input type="checkbox" data-toggle="toggle" data-on="Activated" data-off="Deactivated" data-onstyle="success" data-offstyle="danger" name="status" value="1" {{ $customer->customer_status == 1 ? 'checked' : '' }}>
+
+                            
                           </div>
                         </div>
                         <div class="row">
